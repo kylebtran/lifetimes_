@@ -23,20 +23,18 @@ const Dropdown = ({
             {title}
           </span>
         </div>
-        {icons && (
-          <div className="flex items-end items-center space-x-3 h-4">
-            {icons}
-            {isOpen ? (
-              <Minus width={"16"} className={"text-muted cursor-pointer"} />
-            ) : (
-              <Plus width={"16"} className={"text-muted cursor-pointer"} />
-            )}
-          </div>
-        )}
+        <div className="flex items-end items-center space-x-3 h-4">
+          {icons}
+          {isOpen ? (
+            <Minus width={"16"} className={"text-muted cursor-pointer"} />
+          ) : (
+            <Plus width={"16"} className={"text-muted cursor-pointer"} />
+          )}
+        </div>
       </div>
 
       {/* Dropdown Content (visible when open) */}
-      {isOpen && <div>{children}</div>}
+      {isOpen && <div className="flex flex-col space-y-3 my-3">{children}</div>}
     </div>
   );
 };
