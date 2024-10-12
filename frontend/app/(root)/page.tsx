@@ -1,33 +1,13 @@
 "use client";
-import LocomotiveScroll from "locomotive-scroll";
-import React, { useEffect, useRef } from "react";
-import "locomotive-scroll/dist/locomotive-scroll.css";
+import React from "react";
 import Card from "../_components/Card";
+import Grid from "../_components/Grid";
 
 export default function Home() {
-  // const scrollRef = useRef<HTMLDivElement | null>(null);
-
   const texts = [
     "“We live in a time of string theories and god particles.",
     "Feasible? Doable? Sure, why not.” ― Old Joe, Breaking Bad",
   ];
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    document.documentElement.classList.add("is-ready");
-
-    // if (scrollRef.current) {
-    //   const scroll = new LocomotiveScroll({
-    //     el: scrollRef.current,
-    //     smooth: true,
-    //   });
-
-    //   return () => {
-    //     scroll.destroy();
-    //   };
-    // }
-  }, []);
 
   return (
     <div
@@ -49,18 +29,14 @@ export default function Home() {
             <span className="cursor-blink font-thin text-muted">_</span>
           </span>
         </span>
-        <span className="flex flex-col rolling-text-container w-full mt-[560px]">
+        <span className="flex flex-col rolling-text-container w-full my-[560px]">
           <span className="rolling-text font-serif font-semibold text-[40px]">
             THE ABYSS
           </span>
         </span>
       </div>
       <div className="flex space-x-6 overflow-x-auto whitespace-nowrap">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Grid />
       </div>
     </div>
   );

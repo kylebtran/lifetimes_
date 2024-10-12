@@ -1,13 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 // Outline; Haze
 
 function Card() {
-  const imageIndex = Math.floor(Math.random() * 8) + 1;
-  const randomPosition = `${Math.random() * 100}% ${Math.random() * 100}%`;
-  const flipX = Math.random() > 0.5 ? "scale-x-[-1]" : "";
-  const flipY = Math.random() > 0.5 ? "scale-y-[-1]" : "";
+  const [imageIndex, setImageIndex] = useState<number>(0);
+  const [randomPosition, setRandomPosition] = useState<string>("");
+  const [flipX, setFlipX] = useState<string>("");
+  const [flipY, setFlipY] = useState<string>("");
+
+  useEffect(() => {
+    const index = Math.floor(Math.random() * 8) + 1;
+    const position = `${Math.random() * 100}% ${Math.random() * 100}%`;
+    const flipXValue = Math.random() > 0.5 ? "scale-x-[-1]" : "";
+    const flipYValue = Math.random() > 0.5 ? "scale-y-[-1]" : "";
+
+    setImageIndex(index);
+    setRandomPosition(position);
+    setFlipX(flipXValue);
+    setFlipY(flipYValue);
+  }, []);
 
   return (
     <div className="relative w-[240px] h-[128px]">

@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         background: "var(--background)",
+        middleground: "#282323",
         foreground: "var(--foreground)",
         muted: "#8B8484",
         accent: "#FFC926",
