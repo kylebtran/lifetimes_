@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Zilla_Slab, DM_Sans } from "next/font/google";
 import "./globals.css";
 import ClientProvider from "./ClientProvider";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const zillaSlab = Zilla_Slab({
   subsets: ["latin"],
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${zillaSlab.variable} antialiased`}>
-        <ClientProvider>{children}</ClientProvider>
+        <UserProvider>
+          <ClientProvider>{children}</ClientProvider>
+        </UserProvider>
       </body>
     </html>
   );

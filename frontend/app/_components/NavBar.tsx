@@ -1,16 +1,18 @@
 import Image from "next/image";
 import React from "react";
+
 const links = [
   { href: "/", label: "ROOT" },
   { href: "/square", label: "SQUARE" },
   { href: "/cube", label: "CUBE" },
 ];
+
 function NavBar() {
   return (
-    <header className="flex px-8 items-center font-bold mt-4">
+    <header className="flex px-8 items-center font-bold mt-[18px]">
       <a
         href="/"
-        className="flex-1 text-start text-4 font-serif rounded-full text-accent"
+        className="flex flex-1 text-start text-4 font-serif rounded-full text-accent"
       >
         LIFETIMES_
       </a>
@@ -25,7 +27,10 @@ function NavBar() {
           </a>
         ))}
       </nav>
-      <a href="/" className="flex flex-1 text-end inline-block justify-end">
+      <a
+        href="/api/auth/logout"
+        className="flex flex-1 text-end inline-block justify-end"
+      >
         <Image
           src={"/images/TEST_kbt.png"}
           height={32}
@@ -37,4 +42,5 @@ function NavBar() {
     </header>
   );
 }
+
 export default NavBar;

@@ -3,6 +3,8 @@ import React from "react";
 import SidePanels from "./_components/SidePanels";
 import NavBar from "./_components/NavBar";
 import "locomotive-scroll/dist/locomotive-scroll.css";
+import { useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 function ClientProvider({ children }: { children: React.ReactNode }) {
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
@@ -10,6 +12,15 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
 
   const [isLeftPanel, setIsLeftPanel] = React.useState<Boolean>(false);
   const [isRightPanel, setIsRightPanel] = React.useState<Boolean>(true);
+
+  const { user, error, isLoading } = useUser();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/api/auth/login"); // Redirect to login if not authenticated
+    }
+  }, [user, isLoading]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
