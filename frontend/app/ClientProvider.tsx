@@ -65,20 +65,6 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
         />
       </div>
       <main data-scroll-container ref={scrollRef}>
-        {/* <main> */}
-        {/* [TEST] */}
-        <button
-          onClick={() => setIsLeftPanel(!isLeftPanel)}
-          className="absolute top-20 right-[400px]"
-        >
-          Toggle
-        </button>
-        <button
-          onClick={() => setIsRightPanel(!isRightPanel)}
-          className="absolute top-20 right-[450px]"
-        >
-          Toggle
-        </button>
         {children}
       </main>
       <footer></footer>
