@@ -1,6 +1,6 @@
 import { Crosshair, Ellipsis, Mic, Minus, Plus, UserPlus } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import Slider from "./Slider";
 import Post from "./Post";
@@ -17,15 +17,15 @@ function SidePanels({
   isLeftPanel: Boolean;
   isRightPanel: Boolean;
 }) {
-  const [textContent, setTextContent] = React.useState<string>(SAMPLE_TEXT);
+  const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
 
-  const [happiness, setHappiness] = React.useState<number>(0);
-  const [sadness, setSadness] = React.useState<number>(0);
-  const [fear, setFear] = React.useState<number>(0);
-  const [anger, setAnger] = React.useState<number>(0);
-  const [surprise, setSurprise] = React.useState<number>(0);
-  const [disgust, setDisgust] = React.useState<number>(0);
-  const [coordinates, setCoordinates] = React.useState({ x: 0, y: 0 });
+  const [happiness, setHappiness] = useState<number>(0);
+  const [sadness, setSadness] = useState<number>(0);
+  const [fear, setFear] = useState<number>(0);
+  const [anger, setAnger] = useState<number>(0);
+  const [surprise, setSurprise] = useState<number>(0);
+  const [disgust, setDisgust] = useState<number>(0);
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
 
   const handleSubmit = async () => {
     if (!textContent) return;
@@ -41,14 +41,18 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      setHappiness(data.analytics.happiness);
-      setSadness(data.analytics.sadness);
-      setFear(data.analytics.fear);
-      setAnger(data.analytics.anger);
-      setSurprise(data.analytics.surprise);
-      setDisgust(data.analytics.disgust);
-      setCoordinates(data.coordinates);
-      console.log(((data.coordinates.x + 1) / 2) * 100);
+      const { happiness, sadness, fear, anger, surprise, disgust } =
+        data.analytics;
+      const coordinates = data.coordinates;
+
+      setHappiness(happiness);
+      setSadness(sadness);
+      setFear(fear);
+      setAnger(anger);
+      setSurprise(surprise);
+      setDisgust(disgust);
+      setCoordinates(coordinates);
+      console.log(((coordinates.x + 1) / 2) * 100);
     } catch (error) {
       console.error("Error:", error);
     }

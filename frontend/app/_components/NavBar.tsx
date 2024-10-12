@@ -38,12 +38,14 @@ function NavBar({
 
   return (
     <header className="flex px-8 items-center font-bold mt-[18px]">
-      <a
-        href="/"
-        className="flex flex-1 text-start text-4 font-serif rounded-full text-accent"
-      >
-        LIFETIMES_
-      </a>
+      <div className="flex flex-1">
+        <a
+          href="/"
+          className="text-start text-4 font-serif rounded-full text-accent"
+        >
+          LIFETIMES_
+        </a>
+      </div>
       <nav className="flex flex-1 text-center justify-center space-x-4">
         {isLeftPanel || isRightPanel ? (
           <button
@@ -71,19 +73,18 @@ function NavBar({
           ))
         )}
       </nav>
-      <a
-        href="/api/auth/logout"
-        className="flex flex-1 text-end inline-block justify-end"
-      >
-        <Image
-          src={"/images/TEST_kbt.png"}
-          height={32}
-          width={32}
-          alt="pfp"
-          className="rounded-full"
-          priority
-        />
-      </a>
+      <div className="flex flex-1 text-end inline-block justify-end">
+        <a href="/api/auth/logout">
+          <Image
+            src={"/images/TEST_kbt.png"}
+            height={32}
+            width={32}
+            alt="pfp"
+            className="rounded-full"
+            priority
+          />
+        </a>
+      </div>
     </header>
   );
 }
