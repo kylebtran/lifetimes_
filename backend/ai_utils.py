@@ -1,10 +1,12 @@
 from openai import OpenAI
 import json
+
 with open("config.json") as config_file:
     config = json.load(config_file)
     perplexity_api_key = config["perplexity-api-key"]
 client = OpenAI(api_key=perplexity_api_key, base_url="https://api.perplexity.ai")
-def analyze_dream(dream):
+
+def analyze_text(text: str) -> dict:
     response = client.chat.completions.create(
         model="llama-3.1-sonar-small-128k-chat",
         messages=[
@@ -14,12 +16,12 @@ def analyze_dream(dream):
             },
             {
                 "role": "user",
-                "content": dream,
+                "content": text,
             },
         ],
         max_tokens=100,
         temperature=0.0,
     )
     content = response.choices[0].message.content
-    ratings = json.loads(content)
-    return {"dream": dream, "ratings": ratings}
+    analytics = json.loads(content.strip("`json"))
+    return {"message": text, "analytics": analytics}
