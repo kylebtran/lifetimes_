@@ -1,8 +1,32 @@
+"use client";
 import Image from "next/image";
+import LocomotiveScroll from "locomotive-scroll";
+import React, { useEffect, useRef } from "react";
+import "locomotive-scroll/dist/locomotive-scroll.css";
 
 export default function Home() {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return; // Only run on the client
+
+    if (scrollRef.current) {
+      const scroll = new LocomotiveScroll({
+        el: scrollRef.current, // The element to be scrolled
+        smooth: true,
+      });
+
+      return () => {
+        scroll.destroy(); // Clean up the scroll instance on unmount
+      };
+    }
+  }, []);
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+    <div
+      data-scroll-container
+      ref={scrollRef}
+      className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20"
+    >
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
