@@ -12,17 +12,20 @@ function NavBar({
   isRightPanel,
   setIsLeftPanel,
   setIsRightPanel,
+  setSelectedPost,
 }: {
-  isLeftPanel: Boolean;
-  isRightPanel: Boolean;
+  isLeftPanel: boolean;
+  isRightPanel: boolean;
   setIsLeftPanel: Function;
   setIsRightPanel: Function;
+  setSelectedPost: Function;
 }) {
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsLeftPanel(false);
         setIsRightPanel(false);
+        setSelectedPost(0);
       }
     };
 
@@ -31,7 +34,7 @@ function NavBar({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setIsLeftPanel, setIsRightPanel]);
+  }, [setIsLeftPanel, setIsRightPanel, setSelectedPost]);
 
   return (
     <header className="flex px-8 items-center font-bold mt-[18px]">
@@ -48,9 +51,10 @@ function NavBar({
             onClick={() => {
               setIsLeftPanel(false);
               setIsRightPanel(false);
+              setSelectedPost(0);
             }}
           >
-            EXIT THE WORMHOLE{" "}
+            EXIT THE WORMHOLE
             <div className="ml-[10px] text-[10px] text-background font-semibold pt-[0.5px] pb-[1.5px] px-[6px] bg-muted rounded">
               esc
             </div>

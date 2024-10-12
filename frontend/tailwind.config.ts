@@ -15,6 +15,7 @@ const config: Config = {
         muted: "#8B8484",
         accent: "#FFC926",
         panels: "#2D2B2B",
+        confirm: "#31AE57",
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "sans-serif"],

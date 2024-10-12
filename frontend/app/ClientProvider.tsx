@@ -5,13 +5,18 @@ import NavBar from "./_components/NavBar";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import { useRouter } from "next/navigation";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { usePanelContext } from "./PanelContext";
 
 function ClientProvider({ children }: { children: React.ReactNode }) {
+  const {
+    isLeftPanel,
+    isRightPanel,
+    setIsLeftPanel,
+    setIsRightPanel,
+    setSelectedPost,
+  } = usePanelContext();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const scrollInstanceRef = React.useRef<any>(null);
-
-  const [isLeftPanel, setIsLeftPanel] = React.useState<Boolean>(false);
-  const [isRightPanel, setIsRightPanel] = React.useState<Boolean>(false);
 
   const { user, error, isLoading } = useUser();
   const router = useRouter();
@@ -56,6 +61,7 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
           isRightPanel={isRightPanel}
           setIsLeftPanel={setIsLeftPanel}
           setIsRightPanel={setIsRightPanel}
+          setSelectedPost={setSelectedPost}
         />
       </div>
       <main data-scroll-container ref={scrollRef}>

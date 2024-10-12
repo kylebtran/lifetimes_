@@ -1,9 +1,17 @@
 "use client";
 import React from "react";
-import Card from "../_components/Card";
 import Grid from "../_components/Grid";
+import { usePanelContext } from "../PanelContext";
+import Image from "next/image";
 
 export default function Home() {
+  const {
+    isLeftPanel,
+    setIsLeftPanel,
+    setIsRightPanel,
+    selectedPost,
+    setSelectedPost,
+  } = usePanelContext();
   const texts = [
     "“We live in a time of string theories and god particles.",
     "Feasible? Doable? Sure, why not.” ― Old Joe, Breaking Bad",
@@ -29,14 +37,24 @@ export default function Home() {
             <span className="cursor-blink font-thin text-muted">_</span>
           </span>
         </span>
-        <span className="flex flex-col rolling-text-container w-full mt-[560px]">
-          <span className="rolling-text font-serif font-semibold text-[40px]">
-            THE ABYSS
-          </span>
-        </span>
       </div>
-      <div className="flex w-full min-h-screen bg-muted/20">
-        <Grid numCards={2601} />
+      <div className="flex w-full min-h-screen relative">
+        <Grid
+          numCards={2601}
+          isLeftPanel={isLeftPanel}
+          setIsLeftPanel={setIsLeftPanel}
+          setIsRightPanel={setIsRightPanel}
+          selectedPost={selectedPost}
+          setSelectedPost={setSelectedPost}
+        />
+        {/* 2601 / 255 */}
+        <Image
+          src="/assets/overlay.svg"
+          layout="fill"
+          alt="overlay"
+          draggable={false}
+          className="pointer-events-none"
+        />
       </div>
     </div>
   );
