@@ -16,7 +16,7 @@ function Card({
   selectedPost: number;
   setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [imageIndex, setImageIndex] = useState<number>(0);
+  const [imageIndex, setImageIndex] = useState<number>(1);
   const [randomPosition, setRandomPosition] = useState<string>("");
   const [flipX, setFlipX] = useState<string>("");
   const [flipY, setFlipY] = useState<string>("");
