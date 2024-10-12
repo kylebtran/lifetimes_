@@ -1,6 +1,7 @@
-import { Crosshair, Ellipsis, Mic, Minus, UserPlus } from "lucide-react";
+import { Crosshair, Ellipsis, Mic, Minus, Plus, UserPlus } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import Dropdown from "./Dropdown";
 
 // Dropshadow
 
@@ -101,18 +102,11 @@ function SidePanels({
             </div>
             <div className="flex flex-col space-y-3">
               <Break />
-              <div className="flex">
-                <div className="flex flex-1 items-center space-x-3">
-                  <span className="text-[12px] font-semibold cursor-pointer">
-                    Wishing Well
-                  </span>
-                </div>
-                <div className="flex items-end items-center space-x-3">
-                  <Mic width={"16"} className={"cursor-pointer"} />
-                  <Minus width={"16"} className={"text-muted cursor-pointer"} />
-                </div>
-              </div>
-              <div className="w-full h-40 px-2 py-2 outline outline-[0.2px] outline-muted/70 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white">
+              {/* <div className="w-full h-40 px-2 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white"> */}
+              <Dropdown
+                title={"Wishing Well"}
+                icons={<Mic width={"16"} className={"cursor-pointer"} />}
+              >
                 I find myself standing in a city made entirely of glass. Every
                 building stretches toward the sky like delicate, shimmering
                 towers, reflecting an endless expanse of stars above. The sky
@@ -139,6 +133,20 @@ function SidePanels({
                 solid—just a part of the night sky, dissolving into the stars. I
                 feel no fear, only a deep sense of peace, as if I’ve returned to
                 where I belong.
+              </Dropdown>
+              <button className="rounded py-1 text-[12px] bg-accent text-background font-medium">
+                Submit
+              </button>
+              <Break />
+              <div className="flex">
+                <div className="flex flex-1 items-center space-x-3">
+                  <span className="text-[12px] font-semibold cursor-pointer">
+                    Results
+                  </span>
+                </div>
+                <div className="flex items-end items-center space-x-3">
+                  <Plus width={"16"} className={"text-muted cursor-pointer"} />
+                </div>
               </div>
               <Break />
             </div>
@@ -150,7 +158,7 @@ function SidePanels({
 }
 
 const Break = () => {
-  return <div className="w-[240px] h-[0.2px] -ml-4 bg-muted/70" />;
+  return <div className="w-[240px] h-[0.2px] -ml-4 bg-muted/50" />;
 };
 
 export default SidePanels;

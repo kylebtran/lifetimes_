@@ -9,7 +9,7 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
   const scrollInstanceRef = React.useRef<any>(null);
 
   const [isLeftPanel, setIsLeftPanel] = React.useState<Boolean>(false);
-  const [isRightPanel, setIsRightPanel] = React.useState<Boolean>(false);
+  const [isRightPanel, setIsRightPanel] = React.useState<Boolean>(true);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
@@ -42,8 +42,8 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
         {/* ^ Change to absolute if using Locomotive Scroll */}
         <NavBar />
       </div>
-      {/* <main data-scroll-container ref={scrollRef}> */}
-      <main>
+      <main data-scroll-container ref={scrollRef}>
+        {/* <main> */}
         {/* [TEST] */}
         <button
           onClick={() => setIsLeftPanel(!isLeftPanel)}
