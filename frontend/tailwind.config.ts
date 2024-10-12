@@ -10,7 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         background: "var(--background)",
+        middleground: "#282323",
         foreground: "var(--foreground)",
+        muted: "#8B8484",
+        accent: "#FFC926",
+        panels: "#2D2B2B",
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "sans-serif"],

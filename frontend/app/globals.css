@@ -18,10 +18,55 @@ body {
   color: var(--foreground);
   background: var(--background);
   @apply font-sans;
+  @apply bg-background;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.rolling-text-container {
+  perspective: 600px;
+}
+.rolling-text {
+  display: block;
+  opacity: 0;
+  transform: translateY(60%) rotateX(-80deg);
+  transform-origin: center top;
+  transform-style: preserve-3d;
+  transition: opacity 800ms cubic-bezier(0.215, 0.61, 0.355, 1),
+    transform 800ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.is-ready .rolling-text {
+  opacity: 1;
+  transform: none;
+  transition-duration: 800ms;
+}
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.cursor-blink {
+  animation: flash 1s steps(1, start) infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.grid {
+  will-change: transform;
 }
