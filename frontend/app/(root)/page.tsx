@@ -1,12 +1,11 @@
 "use client";
-import Image from "next/image";
 import LocomotiveScroll from "locomotive-scroll";
 import React, { useEffect, useRef } from "react";
 import "locomotive-scroll/dist/locomotive-scroll.css";
+import Card from "../_components/Card";
 
 export default function Home() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
-  const elementToTrackRef = useRef<HTMLDivElement | null>(null);
 
   const texts = [
     "“We live in a time of string theories and god particles.",
@@ -50,11 +49,20 @@ export default function Home() {
             <span className="cursor-blink font-thin text-muted">_</span>
           </span>
         </span>
-        <span className="flex rolling-text-container w-full mt-[560px]">
+        <span className="flex flex-col rolling-text-container w-full mt-[560px]">
           <span className="rolling-text font-serif font-semibold text-[40px]">
             THE ABYSS
           </span>
         </span>
+        <div className="flex space-x-6 overflow-x-auto whitespace-nowrap">
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+          <Card />
+        </div>
       </div>
     </div>
   );
