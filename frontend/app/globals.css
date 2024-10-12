@@ -58,3 +58,11 @@ body {
 .cursor-blink {
   animation: flash 1s steps(1, start) infinite;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

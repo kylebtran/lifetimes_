@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Zilla_Slab, DM_Sans } from "next/font/google";
 import "./globals.css";
-import NavBar from "./_components/NavBar";
+import ClientProvider from "./ClientProvider";
 
 const zillaSlab = Zilla_Slab({
   subsets: ["latin"],
@@ -27,11 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${zillaSlab.variable} antialiased`}>
-        <div className="absolute w-full">
-          <NavBar />
-        </div>
-        <main>{children}</main>
-        <footer></footer>
+        <ClientProvider>{children}</ClientProvider>
       </body>
     </html>
   );

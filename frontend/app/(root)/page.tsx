@@ -5,7 +5,7 @@ import "locomotive-scroll/dist/locomotive-scroll.css";
 import Card from "../_components/Card";
 
 export default function Home() {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+  // const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const texts = [
     "“We live in a time of string theories and god particles.",
@@ -15,24 +15,24 @@ export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    if (scrollRef.current) {
-      const scroll = new LocomotiveScroll({
-        el: scrollRef.current,
-        smooth: true,
-      });
+    document.documentElement.classList.add("is-ready");
 
-      document.documentElement.classList.add("is-ready");
+    // if (scrollRef.current) {
+    //   const scroll = new LocomotiveScroll({
+    //     el: scrollRef.current,
+    //     smooth: true,
+    //   });
 
-      return () => {
-        scroll.destroy();
-      };
-    }
+    //   return () => {
+    //     scroll.destroy();
+    //   };
+    // }
   }, []);
 
   return (
     <div
-      data-scroll-container
-      ref={scrollRef}
+      // data-scroll-container
+      // ref={scrollRef}
       className="flex flex-col min-h-screen"
     >
       <div className="flex flex-col p-8 mt-[560px]">
@@ -54,15 +54,13 @@ export default function Home() {
             THE ABYSS
           </span>
         </span>
-        <div className="flex space-x-6 overflow-x-auto whitespace-nowrap">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
+      </div>
+      <div className="flex space-x-6 overflow-x-auto whitespace-nowrap">
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
       </div>
     </div>
   );
