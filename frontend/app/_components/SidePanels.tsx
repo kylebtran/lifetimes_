@@ -5,6 +5,8 @@ import Dropdown from "./Dropdown";
 
 // Dropshadow
 
+const SAMPLE_TEXT = `I find myself standing in a city made entirely of glass. Every building stretches toward the sky like delicate, shimmering towers, reflecting an endless expanse of stars above. The sky isn’t dark, though—it glows with a soft, otherworldly light, illuminated by not just one moon, but dozens. Each moon is a different color—some are pale silver, others are deep violet, soft pink, or golden—and they seem to hang impossibly close, like lanterns suspended just out of reach. As I walk, my footsteps create ripples on the smooth surface of the streets, which are as clear as water. The ripples spread outward in perfect circles, but instead of fading, they cause the glass around me to hum softly, like a distant melody. There are no people here, just the quiet song of the city and the moons watching. Suddenly, I notice something strange: a seed in my palm, glowing faintly. Before I can react, it takes root in my hand, growing rapidly into a tree that spirals upward in twisting, crystalline branches. The branches stretch, and as they reach their full length, they begin to turn into birds—translucent and shimmering, as if made of light. The birds lift off, circling me, and I feel my feet leave the ground. They carry me higher and higher, past the towering glass structures, past the glowing moons, until I am weightless. The city below fades into a blur of shimmering light, and I am no longer solid—just a part of the night sky, dissolving into the stars. I feel no fear, only a deep sense of peace, as if I’ve returned to where I belong.`;
+
 function SidePanels({
   isLeftPanel,
   isRightPanel,
@@ -12,6 +14,27 @@ function SidePanels({
   isLeftPanel: Boolean;
   isRightPanel: Boolean;
 }) {
+  const [textContent, setTextContent] = React.useState<string>(SAMPLE_TEXT);
+  const [responseAnalytics, setResponseAnalytics] = React.useState<string>("");
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/analyze_text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: textContent }),
+      });
+
+      const data = await response.json();
+      console.log(data.analytics);
+      setResponseAnalytics(data.analytics);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <>
       {/* Left Panel */}
@@ -53,32 +76,7 @@ function SidePanels({
                 </div>
               </div>
               <div className="w-full h-40 px-2 py-2 bg-background rounded overflow-y-auto break-words text-[12px] font-medium text-white/80">
-                I find myself standing in a city made entirely of glass. Every
-                building stretches toward the sky like delicate, shimmering
-                towers, reflecting an endless expanse of stars above. The sky
-                isn’t dark, though—it glows with a soft, otherworldly light,
-                illuminated by not just one moon, but dozens. Each moon is a
-                different color—some are pale silver, others are deep violet,
-                soft pink, or golden—and they seem to hang impossibly close,
-                like lanterns suspended just out of reach. As I walk, my
-                footsteps create ripples on the smooth surface of the streets,
-                which are as clear as water. The ripples spread outward in
-                perfect circles, but instead of fading, they cause the glass
-                around me to hum softly, like a distant melody. There are no
-                people here, just the quiet song of the city and the moons
-                watching. Suddenly, I notice something strange: a seed in my
-                palm, glowing faintly. Before I can react, it takes root in my
-                hand, growing rapidly into a tree that spirals upward in
-                twisting, crystalline branches. The branches stretch, and as
-                they reach their full length, they begin to turn into
-                birds—translucent and shimmering, as if made of light. The birds
-                lift off, circling me, and I feel my feet leave the ground. They
-                carry me higher and higher, past the towering glass structures,
-                past the glowing moons, until I am weightless. The city below
-                fades into a blur of shimmering light, and I am no longer
-                solid—just a part of the night sky, dissolving into the stars. I
-                feel no fear, only a deep sense of peace, as if I’ve returned to
-                where I belong.
+                {SAMPLE_TEXT}
               </div>
               <Break />
             </div>
@@ -102,39 +100,21 @@ function SidePanels({
             </div>
             <div className="flex flex-col space-y-3">
               <Break />
-              {/* <div className="w-full h-40 px-2 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white"> */}
               <Dropdown
                 title={"Wishing Well"}
                 icons={<Mic width={"16"} className={"cursor-pointer"} />}
+                start={true}
               >
-                I find myself standing in a city made entirely of glass. Every
-                building stretches toward the sky like delicate, shimmering
-                towers, reflecting an endless expanse of stars above. The sky
-                isn’t dark, though—it glows with a soft, otherworldly light,
-                illuminated by not just one moon, but dozens. Each moon is a
-                different color—some are pale silver, others are deep violet,
-                soft pink, or golden—and they seem to hang impossibly close,
-                like lanterns suspended just out of reach. As I walk, my
-                footsteps create ripples on the smooth surface of the streets,
-                which are as clear as water. The ripples spread outward in
-                perfect circles, but instead of fading, they cause the glass
-                around me to hum softly, like a distant melody. There are no
-                people here, just the quiet song of the city and the moons
-                watching. Suddenly, I notice something strange: a seed in my
-                palm, glowing faintly. Before I can react, it takes root in my
-                hand, growing rapidly into a tree that spirals upward in
-                twisting, crystalline branches. The branches stretch, and as
-                they reach their full length, they begin to turn into
-                birds—translucent and shimmering, as if made of light. The birds
-                lift off, circling me, and I feel my feet leave the ground. They
-                carry me higher and higher, past the towering glass structures,
-                past the glowing moons, until I am weightless. The city below
-                fades into a blur of shimmering light, and I am no longer
-                solid—just a part of the night sky, dissolving into the stars. I
-                feel no fear, only a deep sense of peace, as if I’ve returned to
-                where I belong.
+                <textarea
+                  className="w-full min-h-40 px-2 mt-3 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white bg-panels max-h-[400px]"
+                  value={textContent}
+                  onChange={(e) => setTextContent(e.target.value)}
+                ></textarea>
               </Dropdown>
-              <button className="rounded py-1 text-[12px] bg-accent text-background font-medium">
+              <button
+                className="rounded py-1 text-[12px] bg-accent text-background font-medium"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
               <Break />

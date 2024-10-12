@@ -37,6 +37,7 @@ function NavBar() {
           width={32}
           alt="pfp"
           className="rounded-full"
+          priority
         />
       </a>
     </header>

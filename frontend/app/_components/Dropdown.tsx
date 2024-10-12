@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Minus, Plus } from "lucide-react";
+
 const Dropdown = ({
   title,
   children,
   icons,
+  start,
 }: {
   title: string;
   children: React.ReactNode;
   icons?: React.ReactNode;
+  start?: boolean;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false || start);
+
   return (
     <div className="w-full">
       {/* Dropdown Header */}
@@ -30,13 +34,11 @@ const Dropdown = ({
           </div>
         )}
       </div>
+
       {/* Dropdown Content (visible when open) */}
-      {isOpen && (
-        <div className="w-full h-40 px-2 mt-3 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white">
-          {children}
-        </div>
-      )}
+      {isOpen && <div>{children}</div>}
     </div>
   );
 };
+
 export default Dropdown;
