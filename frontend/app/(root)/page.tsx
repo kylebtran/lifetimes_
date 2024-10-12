@@ -29,14 +29,14 @@ export default function Home() {
             <span className="cursor-blink font-thin text-muted">_</span>
           </span>
         </span>
-        <span className="flex flex-col rolling-text-container w-full my-[560px]">
+        <span className="flex flex-col rolling-text-container w-full mt-[560px]">
           <span className="rolling-text font-serif font-semibold text-[40px]">
             THE ABYSS
           </span>
         </span>
       </div>
-      <div className="flex space-x-6 overflow-x-auto whitespace-nowrap">
-        <Grid />
+      <div className="flex w-full min-h-screen bg-muted/20">
+        <Grid numCards={2601} />
       </div>
     </div>
   );

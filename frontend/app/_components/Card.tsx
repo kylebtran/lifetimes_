@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 // Outline; Haze
 
@@ -22,7 +23,11 @@ function Card() {
   }, []);
 
   return (
-    <div className="relative w-[240px] h-[128px]">
+    <motion.div
+      className="relative w-[240px] h-[128px] hover:z-20 z-10 hover:outline outline-2 outline-muted outline-offset-2 rounded-lg"
+      whileHover={{ scale: 1.2 }}
+      transition={{ type: "spring", stiffness: 200 }}
+    >
       <Image
         src={`/images/TEST_dreamscapes/TEST_dreamscape_${imageIndex}.png`}
         fill={true}
@@ -32,8 +37,9 @@ function Card() {
         className={`rounded-lg outline outline-[0.1px] outline-white/10 outline-offset-[-1px] transform ${flipX} ${flipY}`}
         priority={true}
         loading={"eager"}
+        draggable={false}
       />
-    </div>
+    </motion.div>
   );
 }
 

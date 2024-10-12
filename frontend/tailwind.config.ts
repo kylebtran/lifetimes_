@@ -20,6 +20,9 @@ const config: Config = {
         sans: ["var(--font-dm-sans)", "sans-serif"],
         serif: ["var(--font-zilla-slab)", "serif"],
       },
+      gridTemplateColumns: {
+        "auto-51": "repeat(51, auto)",
+      },
     },
   },
   plugins: [],
