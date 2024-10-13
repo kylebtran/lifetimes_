@@ -24,7 +24,7 @@ function NavBar({
   const pathname = usePathname();
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && pathname === "/") {
         setIsLeftPanel(false);
         setIsRightPanel(false);
         setSelectedPost(0);
