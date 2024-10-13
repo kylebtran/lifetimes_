@@ -17,7 +17,7 @@ def analyze_text(text: str) -> dict:
                     "Analyze the dream and rate the following emotions on a scale of 0-10: "
                     "happiness, sadness, fear, anger, surprise, and disgust. Rate the overall concern"
                     "present in the dream on a scale of 0-10. Return only the ratings as a JSON object for emotions and the "
-                    'concern as a separate string, formatted as: {"analytics": <ratings>, "concern": <concern>}. '
+                    'concern as a separate string, formatted as: {"analytics": <ratings(int)>, "concern": <concern(int)>}. '
                     "Do not include any additional text."
                 ),
             },
