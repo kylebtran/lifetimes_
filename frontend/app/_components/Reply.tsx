@@ -53,9 +53,7 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
             placeholder="Add a reply..."
             value={reply}
             onChange={(e) => changeReply(e.target.value)}
-          >
-            {reply}
-          </textarea>
+          />
           <button
             className={`rounded py-1 text-[12px] text-background font-medium ${
               !reply ? "bg-muted" : "bg-accent"

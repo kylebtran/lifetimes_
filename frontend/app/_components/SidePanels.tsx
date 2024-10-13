@@ -1,10 +1,12 @@
 import { Crosshair, Ellipsis, Mic, Minus, Plus, UserPlus } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import Slider from "./Slider";
 import Post from "./Post";
 import Reply from "./Reply";
+import { Post as PostInterface } from "@/app/(models)/db";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 // Dial animation
 
@@ -26,6 +28,9 @@ function SidePanels({
   const [surprise, setSurprise] = useState<number>(0);
   const [disgust, setDisgust] = useState<number>(0);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+  const { user, error, isLoading } = useUser();
+
+  const [isReadyToUpload, setIsReadyToUpload] = useState(false);
 
   const handleSubmit = async () => {
     if (!textContent) return;
@@ -41,10 +46,10 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      const { happiness, sadness, fear, anger, surprise, disgust } =
-        data.analytics;
+      const { happiness, sadness, fear, anger, surprise, disgust } = data.analytics;
       const coordinates = data.coordinates;
 
+      // Update the state with the fetched analytics and coordinates
       setHappiness(happiness);
       setSadness(sadness);
       setFear(fear);
@@ -52,11 +57,76 @@ function SidePanels({
       setSurprise(surprise);
       setDisgust(disgust);
       setCoordinates(coordinates);
+
       console.log(((coordinates.x + 1) / 2) * 100);
+
+      // Set flag to indicate state update is complete
+      setIsReadyToUpload(true);
+
+      return Promise.resolve(); // Indicate success
+    } catch (error) {
+      console.error("Error:", error);
+      return Promise.reject(); // Indicate failure
+    }
+  };
+
+  const handleUpload = async () => {
+    try {
+      const post: PostInterface = {
+        user_id: user?.email ? user.email : "",
+        date: new Date().toISOString().split("T")[0],
+        content: textContent,
+        coordinate: [coordinates.x, coordinates.y],
+        analytics: JSON.stringify({
+          happiness: happiness,
+          sadness: sadness,
+          fear: fear,
+          anger: anger,
+          surprise: surprise,
+          disgust: disgust,
+          concern: 0,
+        }),
+        title: "",
+        isPrivate: false,
+        tags: [],
+        duration: 0,
+        replies: [],
+      };
+
+      const response = await fetch(`/api/db/addDream`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ post }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload the dream");
+      }
+
+      console.log("Dream uploaded successfully");
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  // Watch for changes to `isReadyToUpload`
+  useEffect(() => {
+    if (isReadyToUpload) {
+      handleUpload();
+      setIsReadyToUpload(false); // Reset the flag
+    }
+  }, [isReadyToUpload]);
+
+  const handleSubmitAndUpload = async () => {
+    try {
+      await handleSubmit();
+    } catch (error) {
+      console.error("Error during submission:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -114,7 +184,7 @@ function SidePanels({
                   className={`rounded py-1 text-[12px] text-background font-medium ${
                     !textContent ? "bg-muted" : "bg-accent"
                   } transition-colors duration-200`}
-                  onClick={handleSubmit}
+                  onClick={handleSubmitAndUpload}
                 >
                   Submit
                 </button>
