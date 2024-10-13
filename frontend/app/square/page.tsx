@@ -1,41 +1,66 @@
-
 "use client";
-
 import { useEffect, useState } from "react"; // Import useState and useEffect
 import Map from "@/app/_components/Map";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Script from "next/script";
 import { Post } from "@/app/(models)/db";
+import { usePanelContext } from "../PanelContext";
+import Image from "next/image";
 
 function Square() {
-    const { user, error, isLoading } = useUser();
-    const [posts, setPosts] = useState<Post[]>([]); // State to hold posts
+  const {
+    isLeftPanel,
+    setIsLeftPanel,
+    setIsRightPanel,
+    selectedPost,
+    setSelectedPost,
+  } = usePanelContext();
+  const { user, error, isLoading } = useUser();
+  const [posts, setPosts] = useState<Post[]>([]); // State to hold posts
 
-    useEffect(() => {
-        const getUserPost = async () => {
-            if (user?.email) { // Ensure user email is available
-                console.log("asasdasad")
-                const response = await fetch(`../api/db/postsId/${user?.email}`);
-                
-                const data = await response.json();
-                console.log(data);
+  useEffect(() => {
+    setIsLeftPanel(true);
+    setIsRightPanel(true);
+  }, []);
 
-                setPosts(data); // Set the fetched data
-            }
-        };
+  useEffect(() => {
+    const getUserPost = async () => {
+      if (user?.email) {
+        // Ensure user email is available
+        console.log("asasdasad");
+        const response = await fetch(`../api/db/postsId/${user?.email}`);
 
-        getUserPost(); // Call the function
-    }, [user]); // Dependency on user to fetch new posts when user changes
+        const data = await response.json();
+        console.log(data);
 
-    const coords = posts.map((value: Post) => value.coordinate);
-    console.log(coords)
-    return( 
-        <div className="flex flex-col w-full min-h-screen justify-center items-center bg-red-900 cursor-default">
-            <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></Script>
-            <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></Script>
-            <Map coords={coords}/>
+        setPosts(data); // Set the fetched data
+      }
+    };
+
+    getUserPost(); // Call the function
+  }, [user]); // Dependency on user to fetch new posts when user changes
+
+  const coords = posts.map((value: Post) => value.coordinate);
+  console.log(coords);
+  return (
+    <div className="flex w-full min-h-screen relative justify-center">
+      <div className="relative w-[984px] h-[104px] top-[58px]">
+        <Image
+          src="/assets/emotionmap2.svg"
+          alt="emotionmap"
+          className="select-none"
+          draggable={false}
+          width={984}
+          height={480}
+        />
+        <div className="absolute cursor-default">
+          <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
+          <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
+          <Map coords={coords} />
         </div>
-    );
-};
+      </div>
+    </div>
+  );
+}
 
 export default Square;
