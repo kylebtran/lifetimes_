@@ -51,13 +51,12 @@ function Reply({
   return (
     <div className="space-y-3 mb-2">
       <div className="flex">
-        <div className="flex flex-1 justify-between items-center space-x-3">
-          <span className="text-[12px] font-semibold">
-            {date}
-          </span>
+        <div className="flex flex-1 justify-end items-center space-x-3">
           <div className="flex items-center space-x-3">
             <span className="text-[12px] font-semibold cursor-pointer">
-              {isNewReply && user ? `@${user.nickname}` : `@${user_id.split("@")[0]}`}
+              {isNewReply && user
+                ? `@${user.nickname}`
+                : `@${user_id.split("@")[0]}`}
             </span>
             <Image
               src={"/images/TEST_kbt.png"}
@@ -70,7 +69,7 @@ function Reply({
         </div>
       </div>
       {isNewReply ? (
-        <div className="flex flex-col space-y-3">
+        <div className="flex flex-col space-y-2">
           <textarea
             className="w-full px-2 py-2 bg-muted/15 rounded overflow-y-auto break-words text-[12px] font-medium text-white/80 bg-panels max-h-[200px]"
             name="new-reply"
@@ -88,8 +87,13 @@ function Reply({
           </button>
         </div>
       ) : (
-        <div className="w-full px-2 py-2 bg-muted/15 rounded overflow-y-auto break-words text-[12px] font-medium text-white/80">
-          {content}
+        <div className="flex flex-col">
+          <div className="w-full px-2 py-2 bg-muted/15 rounded overflow-y-auto break-words text-[12px] font-medium text-white/80">
+            {content}
+          </div>
+          <span className="text-[10px] text-muted font-medium italic mt-1">
+            {date}
+          </span>
         </div>
       )}
     </div>
