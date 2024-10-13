@@ -87,7 +87,7 @@ function NavBar({
       <div className="flex flex-1 text-end inline-block justify-end">
         <a>
           <ProfileDropdown placeholderImage={placeholderImage} />
-          <div className="relative w-8 h-8"></div>
+          {/* <div className="relative w-8 h-8"></div> */}
         </a>
       </div>
     </header>

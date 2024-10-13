@@ -50,6 +50,7 @@ def analyze_concern(text: str) -> dict:
                     "Analyze the text contents of the dreams over the past 7 days."
                     "If the provided concern value indicates substantial concern, return a general summary of what is concerning,"
                     "along with bullet points for the most concerning sentences with the day formatted as (Day). If there are no concerning dreams, state that explicitly."
+                    "Do not include any additional text outside the json object."
                     "Store the result as a JSON object with the following structure:"
                     '{"summary": "<general summary(String)>", "bulletPoints": ["<concerning sentence 1 (String)>", "<concerning sentence 2 (String)>", ...]}'
                 ),

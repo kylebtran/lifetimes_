@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Analytics, Post as PostInterface } from "@/app/(models)/db";
+import Image from "next/image";
 
 function BentoPanels() {
   const [concern, setConcern] = useState<{
@@ -83,35 +84,60 @@ function BentoPanels() {
 
   const renderConcerns = () => {
     if (!concern) {
-      return <p>Analysis Loading...</p>; // Display placeholder text while loading
+      return (
+        <div className="text-[16px] space-y-4">
+          <div className="flex items-center space-x-2">
+            <Image
+              src="/assets/perplexity.png"
+              alt="Perplexity"
+              width={32}
+              height={32}
+              className={"flex"}
+            />
+            <span className="font-medium">Perplexity is thinking...</span>
+          </div>
+        </div>
+      );
     }
 
     return (
-      <>
-        <p>Average Concern: {concern.avg}</p>
-        <br />
-        <p>Summary: {concern.summary}</p>
-        <br />
+      <div className="text-[16px] space-y-4">
+        <div className="flex items-center space-x-2">
+          <Image
+            src="/assets/perplexity.png"
+            alt="Perplexity"
+            width={32}
+            height={32}
+            className={"flex"}
+          />
+          <span className="font-medium">Perplexity is done:</span>
+        </div>
+        <div>
+          Average Concern{" "}
+          <span className="text-confirm font-semibold">{concern.avg}</span>
+        </div>
+        <div>{concern.summary}</div>
         <ul>
           {concern.bulletPoints.map((bulletPoint, i) => (
-            <li key={i}>{bulletPoint}</li>
+            <li key={i}>
+              {"  -  "}
+              {bulletPoint}
+            </li>
           ))}
         </ul>
-      </>
+      </div>
     );
   };
 
   return (
     <div className="w-full h-screen grid grid-rows-5 grid-cols-3 gap-4 p-3">
-      <div className="col-span-1 row-span-5 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
-        01
-      </div>
+      <div className="col-span-1 row-span-5 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md"></div>
       <div className="mt-[64px] col-span-2 row-span-2 bg-panels/40 rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
         <div className="mt-[0px]">
           <Chart />
         </div>
       </div>
-      <div className="col-span-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
+      <div className="col-span-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md p-6">
         {renderConcerns()}
       </div>
     </div>
