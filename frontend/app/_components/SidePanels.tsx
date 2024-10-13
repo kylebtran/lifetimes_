@@ -90,6 +90,7 @@ function SidePanels({
 
   const handleUpload = async () => {
     try {
+      const concernToAdd = Number(duraContent) < 8 ? 8 - Number(duraContent) : 0;
       const post: PostInterface = {
         user_id: user?.email || "",
         date: new Date().toISOString().split("T")[0],
@@ -103,7 +104,7 @@ function SidePanels({
           surprise: surprise,
           disgust: disgust,
           concern: Math.min(
-            concern + (Number(duraContent) < 8 ? 8 - Number(duraContent) : 0),
+            concern + concernToAdd,
             10
           ),
         }),
@@ -143,7 +144,7 @@ function SidePanels({
   };
 
   const renderReplies = () => {
-    if (!post || !post.replies || post.replies.length === 0) return null;
+    if (!post || !post.replies || post.replies.length === 0) return <></>;
 
     const postReplies: ReplyInterface[] = JSON.parse(
       post.replies as unknown as string
