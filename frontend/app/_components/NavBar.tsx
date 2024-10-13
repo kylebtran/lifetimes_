@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 const links = [
   { href: "/", label: "ROOT" },
@@ -20,6 +21,7 @@ function NavBar({
   setIsRightPanel: Function;
   setSelectedPost: Function;
 }) {
+  const pathname = usePathname();
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -47,7 +49,7 @@ function NavBar({
         </a>
       </div>
       <nav className="flex flex-1 text-center justify-center space-x-4">
-        {isLeftPanel || isRightPanel ? (
+        {(isLeftPanel || isRightPanel) && pathname === "/" ? (
           <button
             className="flex text-[14px] px-4 py-1 bg-middleground rounded-full text-muted cursor-pointer items-center"
             onClick={() => {
@@ -66,7 +68,11 @@ function NavBar({
             <a
               key={link.href}
               href={link.href}
-              className="text-[14px] px-4 py-1 bg-middleground rounded-full"
+              className={`text-[14px] px-4 py-1 rounded-full ${
+                pathname === link.href
+                  ? "bg-middleground"
+                  : "bg-background text-muted"
+              }`}
             >
               {link.label}
             </a>

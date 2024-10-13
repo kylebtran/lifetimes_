@@ -137,7 +137,7 @@ function SidePanels({
                     }`}
                     style={{
                       left: `${((coordinates.x + 1) / 2) * 100}%`,
-                      top: `${((coordinates.y + 1) / 2) * 100}%`,
+                      bottom: `${((coordinates.y + 1) / 2) * 100}%`,
                       transform: "translate(-50%, -50%)",
                     }}
                   />
