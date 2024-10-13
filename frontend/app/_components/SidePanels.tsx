@@ -162,7 +162,7 @@ function SidePanels({
   };
 
   const pathName = usePathname();
-  const ana = post?JSON.parse(post.analytics as unknown as string):{};
+  const ana = post ? JSON.parse(post.analytics as unknown as string) : {};
 
   return (
     <>
@@ -188,69 +188,71 @@ function SidePanels({
                     date={post.date}
                   />
                   <div />
-                  {pathName === '/square' ?
-                    <div>
-                    <div className="relative w-[208px] h-[104px]">
-                      <Image
-                        src={"/images/resultsmap.svg"}
-                        width={208}
-                        height={104}
-                        alt={"Results Map"}
-                        className="select-none"
-                        draggable={false}
-                      />
-                      <div
-                        className={`absolute w-2 h-2 bg-accent rounded-full outline outline-2 outline-panels ${
-                          post.coordinate[0] === 0 && post.coordinate[1] === 0 ? "hidden" : ""
-                        }`}
-                        style={{
-                          left: `${((post.coordinate[0] + 1) / 2) * 100}%`,
-                          bottom: `${((post.coordinate[1] + 1) / 2) * 100}%`,
-                          transform: "translate(-50%, -50%)",
-                        }}
-                      />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Happiness</span>
-                      <Slider value={ana.happiness} />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Sadness</span>
-                      <Slider value={ana.sadness} />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Fear</span>
-                      <Slider value={ana.fear} />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Anger</span>
-                      <Slider value={ana.anger} />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Surprise</span>
-                      <Slider value={ana.surprise} />
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-[12px]">Disgust</span>
-                      <Slider value={ana.disgust} />
-                    </div>
-                  </div>
-                  : 
-                  <div>
-                    {renderReplies()}
-                    {user?.name && (
-                      <div className="absolute w-[208px] bottom-6">
-                        <Reply
-                          user_id={user.name}
-                          post_id={post.user_id}
-                          post_date={post.date}
-                          setAllPosts={setAllPosts}
-                          isNewReply={true}
-                        /> 
+                  {pathName === "/square" ? (
+                    <div className="flex flex-col space-y-3">
+                      <div className="relative w-[208px] h-[104px]">
+                        <Image
+                          src={"/images/resultsmap.svg"}
+                          width={208}
+                          height={104}
+                          alt={"Results Map"}
+                          className="select-none"
+                          draggable={false}
+                        />
+                        <div
+                          className={`absolute w-2 h-2 bg-accent rounded-full outline outline-2 outline-panels ${
+                            post.coordinate[0] === 0 && post.coordinate[1] === 0
+                              ? "hidden"
+                              : ""
+                          }`}
+                          style={{
+                            left: `${((post.coordinate[0] + 1) / 2) * 100}%`,
+                            bottom: `${((post.coordinate[1] + 1) / 2) * 100}%`,
+                            transform: "translate(-50%, -50%)",
+                          }}
+                        />
                       </div>
-                    )}
-                  </div>
-                  }
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Happiness</span>
+                        <Slider value={ana.happiness} />
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Sadness</span>
+                        <Slider value={ana.sadness} />
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Fear</span>
+                        <Slider value={ana.fear} />
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Anger</span>
+                        <Slider value={ana.anger} />
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Surprise</span>
+                        <Slider value={ana.surprise} />
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        <span className="text-[12px]">Disgust</span>
+                        <Slider value={ana.disgust} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      {renderReplies()}
+                      {user?.name && (
+                        <div className="absolute w-[208px] bottom-6">
+                          <Reply
+                            user_id={user.name}
+                            post_id={post.user_id}
+                            post_date={post.date}
+                            setAllPosts={setAllPosts}
+                            isNewReply={true}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </>
               ) : null}
             </div>
