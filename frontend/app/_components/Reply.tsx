@@ -14,15 +14,16 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
   const handleSubmit = async () => {
     if (!reply || !user) return;
     try {
-      // const response = await fetch("http://localhost:8000/api/db/addReply", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({ post_id: "j6j2liu@gmail.com", user_id: user.name , content: reply, post_date: "2024-10-06" }),
-      // });
+      const response = await fetch("/api/db/addReply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ post_id: "j6j2liu@gmail.com", user_id: user.name , content: reply, post_date: "2024-10-07" }),
+      });
 
       console.log("Reply Successful");
+      console.log(response)
       setReply("");
     } catch (error) {
       console.error("Error:", error);

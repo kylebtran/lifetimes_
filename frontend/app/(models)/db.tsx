@@ -15,13 +15,13 @@ export interface Analytics {
 export interface Reply {
   user_id: string;
   content: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface Post {
   _id?: ObjectId;
   user_id: string; // "Primary"
-  date: Date; // "Primary"
+  date: string; // "Primary"
   content: string;
   title: string;
   isPrivate: boolean;
@@ -118,6 +118,46 @@ export async function Reply(user_id: string, date: Date) {
     replies: post.replies,
   }));
   return result;
+}
+
+// adds reply for a post
+export async function AddReply(
+  post_id: string,
+  user_id: string,
+  content: string,
+  post_date: string,
+  reply_date: string
+) {
+  const client = await clientPromise;
+  const db = client.db("Dreams");
+  const parsedDate = new Date().toISOString().split("T")[0];
+  const reply = { user_id, content, createdAt: parsedDate };
+
+  // Find the post to get the existing replies
+  const post = await db
+    .collection("Post")
+    .findOne({ user_id: post_id, date: post_date });
+
+  if (!post) {
+    throw new Error("Post not found");
+  }
+
+  let replies = JSON.parse(post.replies);
+
+  // Add the new reply to the replies array
+  replies.push(reply);
+
+  // Update the post by stringifying the updated replies array and storing it back
+  await db.collection("Post").updateOne(
+    { user_id: post_id, date: post_date },
+    {
+      $set: {
+        replies: JSON.stringify(replies), // Stringify the updated replies array
+      },
+    }
+  );
+  // console.log(posts);
+  // return posts;
 }
 
 // get comments for a dream
