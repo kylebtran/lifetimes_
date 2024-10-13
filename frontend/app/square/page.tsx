@@ -44,16 +44,16 @@ function Square() {
   console.log(coords);
   return (
     <div className="flex w-full min-h-screen relative justify-center">
-      <div className="relative w-[984px] h-[104px] top-[58px]">
+      <div className="relative w-[984px] h-[875px] top-[58px]">
         <Image
           src="/assets/emotionmap2.svg"
           alt="emotionmap"
           className="select-none"
           draggable={false}
           width={984}
-          height={480}
+          height={875}
         />
-        <div className="absolute inset-0 cursor-default">
+        <div className="absolute inset-0 cursor-default z-10 w-[984px] h-[875px]">
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
           <Map coords={coords} />
