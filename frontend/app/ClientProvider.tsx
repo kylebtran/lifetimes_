@@ -55,7 +55,7 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="fixed w-full z-10">
-        <SidePanels isLeftPanel={isLeftPanel} isRightPanel={isRightPanel} selectedPost={selectedPost} allPosts={allPosts} />
+        <SidePanels isLeftPanel={isLeftPanel} isRightPanel={isRightPanel} selectedPost={selectedPost} allPosts={allPosts} setAllPosts={setAllPosts} />
       </div>
       <div className="fixed w-full z-20">
         {/* ^ Change to absolute if using Locomotive Scroll */}
