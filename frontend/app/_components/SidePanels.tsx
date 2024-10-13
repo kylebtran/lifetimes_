@@ -6,6 +6,7 @@ import Slider from "./Slider";
 import Post from "./Post";
 import Reply from "./Reply";
 import { Post as PostInterface } from "@/app/(models)/db";
+import { Reply as ReplyInterface } from "@/app/(models)/db";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
 // Dial animation
@@ -15,9 +16,13 @@ const SAMPLE_TEXT = `I find myself standing in a city made entirely of glass. Ev
 function SidePanels({
   isLeftPanel,
   isRightPanel,
+  selectedPost,
+  allPosts,
 }: {
   isLeftPanel: Boolean;
   isRightPanel: Boolean;
+  selectedPost: number;
+  allPosts: PostInterface[];
 }) {
   const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
 
@@ -31,6 +36,8 @@ function SidePanels({
   const { user, error, isLoading } = useUser();
 
   const [isReadyToUpload, setIsReadyToUpload] = useState(false);
+
+  const post = selectedPost ? allPosts[selectedPost % allPosts.length] : null;
 
   const handleSubmit = async () => {
     if (!textContent) return;
@@ -46,7 +53,8 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      const { happiness, sadness, fear, anger, surprise, disgust } = data.analytics;
+      const { happiness, sadness, fear, anger, surprise, disgust } =
+        data.analytics;
       const coordinates = data.coordinates;
 
       // Update the state with the fetched analytics and coordinates
@@ -126,7 +134,23 @@ function SidePanels({
       console.error("Error during submission:", error);
     }
   };
-  
+
+  const renderReplies = () => {
+    if (!post || !post.replies || post.replies.length === 0) return;
+    let replies: JSX.Element[] = [];
+    
+    const postReplies: ReplyInterface[] = JSON.parse(post.replies as unknown as string);
+
+    postReplies.forEach(({ user_id, content, createdAt }, i) => {
+      replies.push(
+        <li key={i}>
+          <Reply user_id={user_id} content={content} date={createdAt} />
+        </li>
+      );
+    });
+
+    return <ul>{replies}</ul>;
+  };
 
   return (
     <>
@@ -143,11 +167,30 @@ function SidePanels({
               <Crosshair width={"16"} className={"text-muted"} />
             </div>
             <div className="flex flex-col space-y-3">
-              <Break />
-              <Post text={SAMPLE_TEXT} />
-              {/* <Break /> */}
-              <Reply isNewReply={true}/>
-              <Reply />
+              {post ? (
+                <>
+                  <Break />
+                  <Post
+                    text={post.content}
+                    user_id={post.user_id}
+                    date={post.date}
+                  />
+                  {/* <Break /> */}
+                  {user && user.name ? (
+                    <Reply
+                      user_id={user.name}
+                      post_id={post.user_id}
+                      post_date={post.date}
+                      isNewReply={true}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                  {renderReplies()}
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>

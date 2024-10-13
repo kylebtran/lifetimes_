@@ -13,7 +13,10 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
     isRightPanel,
     setIsLeftPanel,
     setIsRightPanel,
+    selectedPost,
     setSelectedPost,
+    allPosts,
+    setAllPosts,
   } = usePanelContext();
   const scrollRef = React.useRef<HTMLDivElement | null>(null);
   const scrollInstanceRef = React.useRef<any>(null);
@@ -52,7 +55,7 @@ function ClientProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="fixed w-full z-10">
-        <SidePanels isLeftPanel={isLeftPanel} isRightPanel={isRightPanel} />
+        <SidePanels isLeftPanel={isLeftPanel} isRightPanel={isRightPanel} selectedPost={selectedPost} allPosts={allPosts} />
       </div>
       <div className="fixed w-full z-20">
         {/* ^ Change to absolute if using Locomotive Scroll */}

@@ -3,7 +3,21 @@ import Image from "next/image";
 import { Ellipsis, UserPlus } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
+function Reply({
+  user_id,
+  content,
+  date,
+  post_id,
+  post_date,
+  isNewReply = false,
+}: {
+  user_id: string;
+  content?: string;
+  date?: string;
+  post_id?: string;
+  post_date?: string;
+  isNewReply?: boolean;
+}) {
   const [reply, setReply] = useState<string>("");
   const { user } = useUser();
 
@@ -19,11 +33,15 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ post_id: "j6j2liu@gmail.com", user_id: user.name , content: reply, post_date: "2024-10-07" }),
+        body: JSON.stringify({
+          post_id: post_id,
+          user_id: user.name,
+          content: reply,
+          post_date: post_date,
+        }),
       });
 
-      console.log("Reply Successful");
-      console.log(response)
+      // console.log("Reply Successful");
       setReply("");
     } catch (error) {
       console.error("Error:", error);
@@ -31,19 +49,24 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 mb-2">
       <div className="flex">
-        <div className="flex flex-1 justify-end items-center space-x-3">
-          <span className="text-[12px] font-semibold cursor-pointer">
-            {isNewReply && user ? "@" + user.nickname : "@kylebtran"}
+        <div className="flex flex-1 justify-between items-center space-x-3">
+          <span className="text-[12px] font-semibold">
+            {date}
           </span>
-          <Image
-            src={"/images/TEST_kbt.png"}
-            height={32}
-            width={32}
-            alt="pfp"
-            className="rounded-full cursor-pointer"
-          />
+          <div className="flex items-center space-x-3">
+            <span className="text-[12px] font-semibold cursor-pointer">
+              {isNewReply && user ? `@${user.nickname}` : `@${user_id.split("@")[0]}`}
+            </span>
+            <Image
+              src={"/images/TEST_kbt.png"}
+              height={32}
+              width={32}
+              alt="pfp"
+              className="rounded-full cursor-pointer"
+            />
+          </div>
         </div>
       </div>
       {isNewReply ? (
@@ -66,7 +89,7 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
         </div>
       ) : (
         <div className="w-full px-2 py-2 bg-muted/15 rounded overflow-y-auto break-words text-[12px] font-medium text-white/80">
-          Such a rollarcoaster of a story
+          {content}
         </div>
       )}
     </div>

@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { Ellipsis, UserPlus } from "lucide-react";
-function Post({ text }: { text: string }) {
+
+function Post({ text, user_id, date }: { text: string, user_id: string, date: string }) {
+
   return (
     <div className="space-y-3">
       <div className="flex">
@@ -14,7 +16,7 @@ function Post({ text }: { text: string }) {
             className="rounded-full cursor-pointer"
           />
           <span className="text-[12px] font-semibold cursor-pointer">
-            @kylebtran
+            {`@${user_id.split("@")[0]}`}
           </span>
         </div>
         <div className="flex items-end items-center space-x-3">
