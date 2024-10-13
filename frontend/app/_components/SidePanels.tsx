@@ -69,7 +69,7 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      const { happiness, sadness, fear, anger, surprise, disgust, concern } =
+      const { happiness, sadness, fear, anger, surprise, disgust } =
         data.analytics;
       const coordinates = data.coordinates;
 
@@ -79,7 +79,7 @@ function SidePanels({
       setAnger(anger);
       setSurprise(surprise);
       setDisgust(disgust);
-      setConcern(concern);
+      setConcern(data.concern);
       setCoordinates(coordinates);
 
       setIsReadyToUpload(true); // Set ready to upload flag
@@ -103,8 +103,7 @@ function SidePanels({
           surprise: surprise,
           disgust: disgust,
           concern: Math.min(
-            concern +
-              (Number(duraContent * 60) < 8 ? 8 - Number(duraContent * 60) : 0),
+            concern + (Number(duraContent) < 8 ? 8 - Number(duraContent) : 0),
             10
           ),
         }),
