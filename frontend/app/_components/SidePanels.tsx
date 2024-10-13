@@ -138,12 +138,14 @@ function SidePanels({
   const renderReplies = () => {
     if (!post || !post.replies || post.replies.length === 0) return;
     let replies: JSX.Element[] = [];
-    
-    const postReplies: ReplyInterface[] = JSON.parse(post.replies as unknown as string);
+
+    const postReplies: ReplyInterface[] = JSON.parse(
+      post.replies as unknown as string
+    );
 
     postReplies.forEach(({ user_id, content, createdAt }, i) => {
       replies.push(
-        <li key={i}>
+        <li key={i} className="-my-3">
           <Reply user_id={user_id} content={content} date={createdAt} />
         </li>
       );
@@ -176,7 +178,7 @@ function SidePanels({
                     date={post.date}
                   />
                   {/* <Break /> */}
-                  {user && user.name ? (
+                  {/* {user && user.name ? (
                     <Reply
                       user_id={user.name}
                       post_id={post.user_id}
@@ -185,7 +187,8 @@ function SidePanels({
                     />
                   ) : (
                     <></>
-                  )}
+                  )} */}
+                  <div />
                   {renderReplies()}
                 </>
               ) : (
