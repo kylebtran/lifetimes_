@@ -37,7 +37,7 @@ function SidePanels({
 
   const [isReadyToUpload, setIsReadyToUpload] = useState(false);
 
-  const post = selectedPost ? allPosts[selectedPost % allPosts.length] : null;
+  const post = selectedPost ? allPosts[(selectedPost - 1) % allPosts.length] : null;
 
   const handleSubmit = async () => {
     if (!textContent) return;
