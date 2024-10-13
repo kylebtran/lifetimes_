@@ -12,17 +12,17 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
   };
 
   const handleSubmit = async () => {
-    if (!reply) return;
+    if (!reply || !user) return;
     try {
-      // const response = await fetch("http://localhost:8000/analyze_text", {
+      // const response = await fetch("http://localhost:8000/api/db/addReply", {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
       //   },
-      //   body: JSON.stringify({ text: reply }),
+      //   body: JSON.stringify({ post_id: "j6j2liu@gmail.com", user_id: user.name , content: reply, post_date: "2024-10-06" }),
       // });
-      console.log("Reply Successful");
 
+      console.log("Reply Successful");
       setReply("");
     } catch (error) {
       console.error("Error:", error);
@@ -53,9 +53,7 @@ function Reply({ isNewReply = false }: { isNewReply?: boolean }) {
             placeholder="Add a reply..."
             value={reply}
             onChange={(e) => changeReply(e.target.value)}
-          >
-            {reply}
-          </textarea>
+          />
           <button
             className={`rounded py-1 text-[12px] text-background font-medium ${
               !reply ? "bg-muted" : "bg-accent"
