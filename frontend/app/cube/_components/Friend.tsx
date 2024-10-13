@@ -34,15 +34,15 @@ const FriendList = ({ user_id }: { user_id: string }) => {
     <div>
       {friends.length > 0 ? (
         <div>
-          <div className="-ml-[225px] font-semibold">
+          <div className="font-semibold text-muted">
             Friends: {friends.length}
           </div>
           {friends.map((friend) => (
             <div
               key={friend.user_id}
-              className="flex items-center m-3 -ml-[200px] justify-start"
+              className="flex items-center py-2 justify-start"
             >
-              <div className="mr-1">
+              <div className="mr-4">
                 <BiggerIcons user_id={friend.user_id} />
               </div>
               <div>

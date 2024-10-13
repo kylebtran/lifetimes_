@@ -24,7 +24,7 @@ const UsernameDisplay = ({ user_id }: { user_id: string }) => {
   }, [user_id]);
 
   return (
-    <span className="text-[20px] cursor-pointer">
+    <span className="text-[16px] font-medium cursor-pointer">
       {username ? `@${username}` : "anonymous"}
     </span>
   );

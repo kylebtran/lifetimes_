@@ -5,7 +5,6 @@ import Chart from "./Chart";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Analytics, Post as PostInterface } from "@/app/(models)/db";
 import Image from "next/image";
-import Playlist from "./Playlist";
 import FriendsPanel from "./FriendsPanel";
 
 function BentoPanels() {
@@ -135,7 +134,7 @@ function BentoPanels() {
     <div className="w-full h-screen grid grid-rows-5 grid-cols-3 gap-4 p-5">
       {/* Left Section */}
       <div className="h-screen flex items-center justify-center col-span-1">
-        <div className="mt-5 min-h-[820px] min-w-[450px] mt-10px bg-panels/50 rounded-xl outline-white/10 outline-offset-[-1px] shadow-md outline">
+        <div className="flex mt-5 min-h-[820px] min-w-[450px] mt-10px bg-panels/40 rounded-[12px] outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md outline p-6">
           <FriendsPanel />
         </div>
       </div>
@@ -148,7 +147,7 @@ function BentoPanels() {
       </div>
 
       {/* RenderConcerns Section */}
-      <div className="col-span-2 col-start-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
+      <div className="col-span-2 col-start-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md p-6">
         {renderConcerns()}
       </div>
     </div>

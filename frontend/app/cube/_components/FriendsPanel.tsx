@@ -8,18 +8,17 @@ export function FriendsPanel() {
   const { user, isLoading } = useUser();
 
   return (
-    <div className="flex flex-col items-center justify-center w-[475px] mt-10 h-full">
-      <div className="font-semibold text-white text-[25px] mb-5">
+    <div className="flex flex-col justify-start w-full h-full">
+      <div className="flex justify-between font-semibold text-white text-[16px] items-center">
         Add Friends
+        <Input
+          type="email"
+          placeholder="Email"
+          className="flex w-[200px] border-muted -mt-2"
+        />
       </div>
-      <div className="flex items-center">
-        <Input type="email" placeholder="Email" />
-        <UserPlus className="m-1 ml-2 cursor-pointer" />
-      </div>
-
-      <div className="mt-3 h-1 w-full bg-muted/10"></div>
-
-      <div>
+      <div className="mt-3 h-[1px] w-full bg-muted/20" />
+      <div className="flex w-full mt-3">
         <Friend user_id={user?.sub || ""} />
       </div>
     </div>
