@@ -63,7 +63,7 @@ function SidePanels({
   const handleSubmit = async () => {
     if (!textContent) return;
     try {
-      const response = await fetch("http://localhost:8000/analyze_text", {
+      const response = await fetch("https://dubhacks2024-lifetimes.onrender.com/analyze_text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: textContent }),

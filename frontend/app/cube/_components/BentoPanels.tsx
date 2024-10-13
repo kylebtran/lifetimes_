@@ -50,7 +50,7 @@ function BentoPanels() {
         // console.log(dreams)
 
         const analyzedConcerningDreams = await fetch(
-          "http://localhost:8000/analyze_concern",
+          "https://dubhacks2024-lifetimes.onrender.com/analyze_concern",
           {
             method: "POST",
             headers: {
