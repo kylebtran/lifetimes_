@@ -59,8 +59,11 @@ export async function PostsId(user_id_in: string) {
     .collection("Post")
     .find({ user_id: user_id_in })
     .toArray();
-  console.log(posts);
-  return posts;
+
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  return sortedPosts;
 }
 
 // Returns a given dream given user_id and date
