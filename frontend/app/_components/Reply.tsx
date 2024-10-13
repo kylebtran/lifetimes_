@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Ellipsis, UserPlus } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Icons from "./Icons";
+import Username from "./Username";
 
 function Reply({
   user_id,
@@ -53,15 +55,9 @@ function Reply({
     return (
       <>
         <span className="text-[12px] font-semibold cursor-pointer">
-          @{user_id.split("@")[0]}
+          <Username user_id={user_id} />
         </span>
-        <Image
-          src={"/images/TEST_kbt.png"}
-          height={32}
-          width={32}
-          alt="pfp"
-          className="rounded-full cursor-pointer"
-        />
+        <Icons user_id={user_id} />
       </>
     );
   };
