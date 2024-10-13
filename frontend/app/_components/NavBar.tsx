@@ -6,9 +6,9 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 const placeholderImage = "/images/Portrait_Placeholder.png";
 
 const links = [
-  { href: "/", label: "ROOT" },
-  { href: "/square", label: "SQUARE" },
-  { href: "/cube", label: "CUBE" },
+  { href: "/", label: "SCAPE" },
+  { href: "/square", label: "REALM" },
+  { href: "/cube", label: "WEAVER" },
 ];
 
 function NavBar({

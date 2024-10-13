@@ -90,7 +90,8 @@ function SidePanels({
 
   const handleUpload = async () => {
     try {
-      const concernToAdd = Number(duraContent) < 8 ? 8 - Number(duraContent) : 0;
+      const concernToAdd =
+        Number(duraContent) < 8 ? 8 - Number(duraContent) : 0;
       const post: PostInterface = {
         user_id: user?.email || "",
         date: new Date().toISOString().split("T")[0],
@@ -103,10 +104,7 @@ function SidePanels({
           anger: anger,
           surprise: surprise,
           disgust: disgust,
-          concern: Math.min(
-            concern + concernToAdd,
-            10
-          ),
+          concern: Math.min(concern + concernToAdd, 10),
         }),
         title: "",
         isPrivate: false,
@@ -183,7 +181,6 @@ function SidePanels({
                     user_id={post.user_id}
                     date={post.date}
                   />
-                  <div />
                   {renderReplies()}
                   {user?.name && (
                     <div className="absolute w-[208px] bottom-6">

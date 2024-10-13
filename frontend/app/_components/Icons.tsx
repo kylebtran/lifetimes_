@@ -1,5 +1,6 @@
 // Icons.tsx
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 type UserInfo = {
   username: string;
@@ -32,7 +33,7 @@ export default function Icons({ user_id }: { user_id: string }) {
   return (
     <div>
       {profilePicture && (
-        <img
+        <Image
           src={profilePicture}
           alt="Profile Icon"
           height={32}
@@ -41,7 +42,7 @@ export default function Icons({ user_id }: { user_id: string }) {
         />
       )}
       {!profilePicture && (
-        <img
+        <Image
           src={`/images/Portrait_Placeholder.png`}
           alt="Placeholder Icon"
           height={32}

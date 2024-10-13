@@ -29,6 +29,9 @@ function Post({
       <div className="w-full h-40 px-2 py-2 bg-background rounded overflow-y-auto break-words text-[12px] font-medium text-white/80">
         {text}
       </div>
+      <span className="text-[10px] text-muted font-medium italic mt-1">
+        {date}
+      </span>
     </div>
   );
 }
