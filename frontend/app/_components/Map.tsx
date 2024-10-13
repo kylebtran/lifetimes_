@@ -81,7 +81,7 @@ function Map({ coords }: { coords: number[][] }) {
         hovermode: "closest",
         bargap: 0,
         paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,1)",
+        plot_bgcolor: "rgba(0,0,0,0)",
         xaxis: {
           visible: true,
           domain: [0, 0.85],
