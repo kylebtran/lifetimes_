@@ -27,11 +27,9 @@ function Square() {
     const getUserPost = async () => {
       if (user?.email) {
         // Ensure user email is available
-        console.log("asasdasad");
         const response = await fetch(`../api/db/postsId/${user?.email}`);
 
         const data = await response.json();
-        console.log(data);
 
         setPosts(data); // Set the fetched data
       }
