@@ -25,6 +25,7 @@ function SidePanels({
   allPosts: PostInterface[];
 }) {
   const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
+  const [duraContent, setDuraContent] = useState<number>(8);
 
   const [happiness, setHappiness] = useState<number>(0);
   const [sadness, setSadness] = useState<number>(0);
@@ -32,6 +33,7 @@ function SidePanels({
   const [anger, setAnger] = useState<number>(0);
   const [surprise, setSurprise] = useState<number>(0);
   const [disgust, setDisgust] = useState<number>(0);
+  const [concern, setConcern] = useState<number>(0);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const { user, error, isLoading } = useUser();
 
@@ -55,7 +57,7 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      const { happiness, sadness, fear, anger, surprise, disgust } =
+      const { happiness, sadness, fear, anger, surprise, disgust, concern } =
         data.analytics;
       const coordinates = data.coordinates;
 
@@ -66,6 +68,7 @@ function SidePanels({
       setAnger(anger);
       setSurprise(surprise);
       setDisgust(disgust);
+      setConcern(concern);
       setCoordinates(coordinates);
 
       console.log(((coordinates.x + 1) / 2) * 100);
@@ -94,13 +97,13 @@ function SidePanels({
           anger: anger,
           surprise: surprise,
           disgust: disgust,
-          concern: 0,
+          concern: Math.min(concern + (Number(duraContent * 60) < 8 ? 8 - Number(duraContent * 60) : 0), 10),
         }),
         title: "",
         isPrivate: false,
         tags: [],
-        duration: 0,
-        replies: [],
+        duration:  Number(duraContent * 60),
+        replies: JSON.stringify([]),
       };
 
       const response = await fetch(`/api/db/addDream`, {
@@ -230,6 +233,12 @@ function SidePanels({
                   value={textContent}
                   onChange={(e) => setTextContent(e.target.value)}
                   placeholder="Recite last night's dream"
+                />
+                <textarea
+                  className="w-full min-h-10 px-2 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white bg-panels max-h-[10px]"
+                  value={duraContent}
+                  onChange={(e) => setDuraContent(e.target.value)}
+                  placeholder="How many hours did you sleep?"
                 />
                 <button
                   className={`rounded py-1 text-[12px] text-background font-medium ${

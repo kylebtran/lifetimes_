@@ -51,7 +51,7 @@ export default function Component() {
     }
 
     fetchData();
-  }, [user?.email]); // Ensure the effect runs when the user's email is available
+  }, [user?.email]);
 
   // if (loading || isLoading) {
   //   return <div className="">Loading...</div>;
@@ -71,26 +71,6 @@ export default function Component() {
       color: "#ff6347",
     },
   } satisfies ChartConfig;
-
-  function CustomTick({ x, y, payload }: any) {
-    const [isHovered, setIsHovered] = useState(false);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        dy={16}
-        textAnchor="middle"
-        fill={isHovered ? "#ff6347" : "#000"} // Change color on hover
-        fontSize={12}
-        onMouseEnter={() => setIsHovered(true)} // Set hover state to true
-        onMouseLeave={() => setIsHovered(false)} // Set hover state to false
-        style={{ cursor: "pointer" }} // Optional: add pointer cursor
-      >
-        {payload.value}
-      </text>
-    );
-  }
 
   return (
     <Card className="bg-transparent border-none shadow-none">

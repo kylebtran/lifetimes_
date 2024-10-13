@@ -19,7 +19,6 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
   allPosts.forEach((value: Post, index: number) => {
     const postExists = posts.some((post) => compareCoordinates(post.coordinate, value.coordinate) && post.user_id == value.user_id); // Use deep comparison
     if (postExists) {
-      console.log(value);
       postMap.set(value.coordinate[0] + " " + value.coordinate[1], index+1);
     }
   });
