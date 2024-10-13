@@ -230,16 +230,3 @@ export async function OutFrenReq(user_id: string) {
     return [];
   }
 }
-
-/*
- * ADDING TO DB
- */
-
-// adds a dream given a Post; must follow interface above
-export async function AddDream(dream: Post) {
-  const client = await clientPromise;
-  const db = client.db("Dreams");
-  const res = await db.collection("Post").insertOne(dream);
-
-  return res.insertedId;
-}
