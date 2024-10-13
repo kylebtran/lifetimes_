@@ -133,7 +133,6 @@ function SidePanels({
   const handleSubmitAndUpload = async () => {
     try {
       await handleSubmit();
-      window.location.reload();
     } catch (error) {
       console.error("Error during submission:", error);
     }
