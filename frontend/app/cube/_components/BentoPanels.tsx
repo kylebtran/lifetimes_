@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Analytics, Post as PostInterface } from "@/app/(models)/db";
+import Image from "next/image";
 import Playlist from "./Playlist";
 import FriendsPanel from "./FriendsPanel";
 
@@ -85,21 +86,48 @@ function BentoPanels() {
 
   const renderConcerns = () => {
     if (!concern) {
-      return <p>Analysis Loading...</p>; // Display placeholder text while loading
+      return (
+        <div className="text-[16px] space-y-4">
+          <div className="flex items-center space-x-2">
+            <Image
+              src="/assets/perplexity.png"
+              alt="Perplexity"
+              width={32}
+              height={32}
+              className={"flex"}
+            />
+            <span className="font-medium">Perplexity is thinking...</span>
+          </div>
+        </div>
+      );
     }
 
     return (
-      <>
-        <p>Average Concern: {concern.avg}</p>
-        <br />
-        <p>Summary: {concern.summary}</p>
-        <br />
+      <div className="text-[16px] space-y-4">
+        <div className="flex items-center space-x-2">
+          <Image
+            src="/assets/perplexity.png"
+            alt="Perplexity"
+            width={32}
+            height={32}
+            className={"flex"}
+          />
+          <span className="font-medium">Perplexity is done:</span>
+        </div>
+        <div>
+          Average Concern{" "}
+          <span className="text-confirm font-semibold">{concern.avg}</span>
+        </div>
+        <div>{concern.summary}</div>
         <ul>
           {concern.bulletPoints.map((bulletPoint, i) => (
-            <li key={i}>{bulletPoint}</li>
+            <li key={i}>
+              {"  -  "}
+              {bulletPoint}
+            </li>
           ))}
         </ul>
-      </>
+      </div>
     );
   };
 
