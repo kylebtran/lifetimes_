@@ -7,9 +7,9 @@ import ProfileDropdown from "./ProfileDropdown";
 const placeholderImage = "/images/Portrait_Placeholder.png";
 
 const links = [
-  { href: "/", label: "ROOT" },
-  { href: "/square", label: "SQUARE" },
-  { href: "/cube", label: "CUBE" },
+  { href: "/", label: "SCAPE" },
+  { href: "/square", label: "REALM" },
+  { href: "/cube", label: "WEAVER" },
 ];
 
 function NavBar({
@@ -87,7 +87,6 @@ function NavBar({
       <div className="flex flex-1 text-end inline-block justify-end">
         <a>
           <ProfileDropdown placeholderImage={placeholderImage} />
-          {/* <div className="relative w-8 h-8"></div> */}
         </a>
       </div>
     </header>
