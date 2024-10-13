@@ -33,6 +33,7 @@ function SidePanels({
   const [anger, setAnger] = useState<number>(0);
   const [surprise, setSurprise] = useState<number>(0);
   const [disgust, setDisgust] = useState<number>(0);
+  const [concern, setConcern] = useState<number>(0);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const { user, error, isLoading } = useUser();
 
@@ -56,7 +57,7 @@ function SidePanels({
       const data = await response.json();
       console.log(data);
 
-      const { happiness, sadness, fear, anger, surprise, disgust } =
+      const { happiness, sadness, fear, anger, surprise, disgust, concern } =
         data.analytics;
       const coordinates = data.coordinates;
 
@@ -67,6 +68,7 @@ function SidePanels({
       setAnger(anger);
       setSurprise(surprise);
       setDisgust(disgust);
+      setConcern(concern);
       setCoordinates(coordinates);
 
       console.log(((coordinates.x + 1) / 2) * 100);
@@ -95,7 +97,7 @@ function SidePanels({
           anger: anger,
           surprise: surprise,
           disgust: disgust,
-          concern: 0,
+          concern: Math.min(concern + (Number(duraContent * 60) < 8 ? 8 - Number(duraContent * 60) : 0), 10),
         }),
         title: "",
         isPrivate: false,
