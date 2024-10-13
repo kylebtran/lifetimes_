@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Post } from "../(models)/db";
 import { usePanelContext } from "../PanelContext";
 
-function Map({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
+function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
   const [plotlyLoaded, setPlotlyLoaded] = useState(false);
 
   const {
@@ -155,4 +155,4 @@ function Map({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React
   );
 }
 
-export default Map;
+export default Mapers;

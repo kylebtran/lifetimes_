@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react"; // Import useState and useEffect
-import Map from "@/app/_components/Map";
+import Mapers from "@/app/_components/Mapers";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Script from "next/script";
 import { Post } from "@/app/(models)/db";
@@ -58,7 +58,7 @@ function Square() {
         >
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
-          <Map 
+          <Mapers 
             posts={posts}
             setSelectedPost={setSelectedPost} 
           />
