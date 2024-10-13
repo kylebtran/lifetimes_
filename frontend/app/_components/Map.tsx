@@ -83,14 +83,14 @@ function Map({ coords }: { coords: number[][] }) {
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         xaxis: {
-          visible: true,
+          visible: false,
           domain: [0, 0.85],
           showgrid: false,
           zeroline: false,
           range: [-1, 1],
         },
         yaxis: {
-          visible: true,
+          visible: false,
           domain: [0, 0.85],
           showgrid: false,
           zeroline: false,
