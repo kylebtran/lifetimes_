@@ -113,7 +113,7 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
         },
       };
 
-      const config = { displayModeBar: false, responsive: true };
+      const config = { displayModeBar: false, responsive: true, doubleClick: false};
       const data = [trace2, trace3, trace1];
 
       const layout = {

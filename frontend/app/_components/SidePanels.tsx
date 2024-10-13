@@ -1,6 +1,6 @@
-import { Crosshair, Ellipsis, Mic, Minus, Plus, UserPlus } from "lucide-react";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { Crosshair, Mic } from "lucide-react";
+import Image from "next/image";
 import Dropdown from "./Dropdown";
 import Slider from "./Slider";
 import Post from "./Post";
@@ -9,9 +9,7 @@ import { Post as PostInterface } from "@/app/(models)/db";
 import { Reply as ReplyInterface } from "@/app/(models)/db";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
-// Dial animation
-
-const SAMPLE_TEXT = `I find myself standing in a city made entirely of glass. Every building stretches toward the sky like delicate, shimmering towers, reflecting an endless expanse of stars above. The sky isn’t dark, though—it glows with a soft, otherworldly light, illuminated by not just one moon, but dozens. Each moon is a different color—some are pale silver, others are deep violet, soft pink, or golden—and they seem to hang impossibly close, like lanterns suspended just out of reach. As I walk, my footsteps create ripples on the smooth surface of the streets, which are as clear as water. The ripples spread outward in perfect circles, but instead of fading, they cause the glass around me to hum softly, like a distant melody. There are no people here, just the quiet song of the city and the moons watching. Suddenly, I notice something strange: a seed in my palm, glowing faintly. Before I can react, it takes root in my hand, growing rapidly into a tree that spirals upward in twisting, crystalline branches. The branches stretch, and as they reach their full length, they begin to turn into birds—translucent and shimmering, as if made of light. The birds lift off, circling me, and I feel my feet leave the ground. They carry me higher and higher, past the towering glass structures, past the glowing moons, until I am weightless. The city below fades into a blur of shimmering light, and I am no longer solid—just a part of the night sky, dissolving into the stars. I feel no fear, only a deep sense of peace, as if I’ve returned to where I belong.`;
+const SAMPLE_TEXT = `I find myself standing in a city made entirely of glass...`;
 
 function SidePanels({
   isLeftPanel,
@@ -19,14 +17,13 @@ function SidePanels({
   selectedPost,
   allPosts,
 }: {
-  isLeftPanel: Boolean;
-  isRightPanel: Boolean;
+  isLeftPanel: boolean;
+  isRightPanel: boolean;
   selectedPost: number;
   allPosts: PostInterface[];
 }) {
   const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
   const [duraContent, setDuraContent] = useState<number>(0);
-
   const [happiness, setHappiness] = useState<number>(0);
   const [sadness, setSadness] = useState<number>(0);
   const [fear, setFear] = useState<number>(0);
@@ -35,22 +32,37 @@ function SidePanels({
   const [disgust, setDisgust] = useState<number>(0);
   const [concern, setConcern] = useState<number>(0);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
-  const { user, error, isLoading } = useUser();
-
+  const [username, setUsername] = useState<string>("");
+  const { user, isLoading } = useUser(); // Get user from Auth0
   const [isReadyToUpload, setIsReadyToUpload] = useState(false);
 
   const post = selectedPost
     ? allPosts[(selectedPost - 1) % allPosts.length]
     : null;
 
+  async function fetchData(user_id: string) {
+    try {
+      const response = await fetch(`../../api/db/userInfo/${user_id}`);
+      const data = await response.json();
+      setUsername(data.username);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (user?.email) {
+      fetchData(user.email);
+    }
+  }, [user?.email]);
+
+  // Handle text analysis and dream upload
   const handleSubmit = async () => {
     if (!textContent) return;
     try {
       const response = await fetch("http://localhost:8000/analyze_text", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: textContent }),
       });
 
@@ -61,7 +73,6 @@ function SidePanels({
         data.analytics;
       const coordinates = data.coordinates;
 
-      // Update the state with the fetched analytics and coordinates
       setHappiness(happiness);
       setSadness(sadness);
       setFear(fear);
@@ -71,22 +82,16 @@ function SidePanels({
       setConcern(concern);
       setCoordinates(coordinates);
 
-      console.log(((coordinates.x + 1) / 2) * 100);
-
-      // Set flag to indicate state update is complete
-      setIsReadyToUpload(true);
-
-      return Promise.resolve(); // Indicate success
+      setIsReadyToUpload(true); // Set ready to upload flag
     } catch (error) {
       console.error("Error:", error);
-      return Promise.reject(); // Indicate failure
     }
   };
 
   const handleUpload = async () => {
     try {
       const post: PostInterface = {
-        user_id: user?.email ? user.email : "",
+        user_id: user?.email || "",
         date: new Date().toISOString().split("T")[0],
         content: textContent,
         coordinate: [coordinates.x, coordinates.y],
@@ -112,9 +117,7 @@ function SidePanels({
 
       const response = await fetch(`/api/db/addDream`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post }),
       });
 
@@ -128,7 +131,7 @@ function SidePanels({
     }
   };
 
-  // Watch for changes to `isReadyToUpload`
+  // Watch for the `isReadyToUpload` flag
   useEffect(() => {
     if (isReadyToUpload) {
       handleUpload();
@@ -137,30 +140,24 @@ function SidePanels({
   }, [isReadyToUpload]);
 
   const handleSubmitAndUpload = async () => {
-    try {
-      await handleSubmit();
-    } catch (error) {
-      console.error("Error during submission:", error);
-    }
+    await handleSubmit();
   };
 
   const renderReplies = () => {
-    if (!post || !post.replies || post.replies.length === 0) return;
-    let replies: JSX.Element[] = [];
+    if (!post || !post.replies || post.replies.length === 0) return null;
 
     const postReplies: ReplyInterface[] = JSON.parse(
       post.replies as unknown as string
     );
-
-    postReplies.forEach(({ user_id, content, createdAt }, i) => {
-      replies.push(
-        <li key={i} className="-my-3">
-          <Reply user_id={user_id} content={content} date={createdAt} />
-        </li>
-      );
-    });
-
-    return <ul>{replies}</ul>;
+    return (
+      <ul>
+        {postReplies.map(({ user_id, content, createdAt }, i) => (
+          <li key={i} className="-my-3">
+            <Reply user_id={user_id} content={content} date={createdAt} />
+          </li>
+        ))}
+      </ul>
+    );
   };
 
   return (
@@ -168,9 +165,9 @@ function SidePanels({
       {/* Left Panel */}
       <div
         className={`flex flex-col h-screen transform transition-transform duration-300 ease-in-out 
-        ${
-          isLeftPanel ? "translate-x-0" : "-translate-x-full"
-        } fixed left-0 top-0 z-50`}
+          ${
+            isLeftPanel ? "translate-x-0" : "-translate-x-full"
+          } fixed left-0 top-0 z-50`}
       >
         <div className="flex flex-col h-screen p-3">
           <div className="flex-grow w-[240px] px-4 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
@@ -186,11 +183,9 @@ function SidePanels({
                     user_id={post.user_id}
                     date={post.date}
                   />
-                  {/* <Break /> */}
-
                   <div />
                   {renderReplies()}
-                  {user && user.name ? (
+                  {user?.name && (
                     <div className="absolute w-[208px] bottom-6">
                       <Reply
                         user_id={user.name}
@@ -199,30 +194,27 @@ function SidePanels({
                         isNewReply={true}
                       />
                     </div>
-                  ) : (
-                    <></>
                   )}
                 </>
-              ) : (
-                <></>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
       </div>
+
       {/* Right Panel */}
       <div
         className={`flex flex-col h-screen transform transition-transform duration-300 ease-in-out 
-        ${
-          isRightPanel ? "translate-x-0" : "translate-x-full"
-        } fixed right-0 top-0 z-50`}
+          ${
+            isRightPanel ? "translate-x-0" : "translate-x-full"
+          } fixed right-0 top-0 z-50`}
       >
         <div className="flex flex-col h-screen p-3">
           <div className="flex-grow w-[240px] px-4 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
             <div className="flex w-full justify-between items-center mt-[10px] mb-3">
               <Crosshair width={"16"} className={"text-muted"} />
               <span className="text-[12px] mr-12 font-semibold cursor-pointer">
-                @kylebtran
+                {username || "No Username"}
               </span>
             </div>
             <div className="flex flex-col space-y-3">
@@ -297,7 +289,7 @@ function SidePanels({
                   <Slider value={surprise} />
                 </div>
                 <div className="flex flex-col space-y-1">
-                  <span className="text-[12px]">Disguist</span>
+                  <span className="text-[12px]">Disgust</span>
                   <Slider value={disgust} />
                 </div>
               </Dropdown>

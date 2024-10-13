@@ -1,7 +1,10 @@
-import Image from "next/image";
 import React from "react";
 import { usePathname } from "next/navigation";
 import Icons from "./Icons";
+import { useUser } from "@auth0/nextjs-auth0/client";
+
+const placeholderImage = "/images/Portrait_Placeholder.png";
+
 const links = [
   { href: "/", label: "ROOT" },
   { href: "/square", label: "SQUARE" },
@@ -22,6 +25,8 @@ function NavBar({
   setSelectedPost: Function;
 }) {
   const pathname = usePathname();
+  const { user, isLoading } = useUser();
+
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && pathname === "/") {
@@ -36,7 +41,7 @@ function NavBar({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [setIsLeftPanel, setIsRightPanel, setSelectedPost]);
+  }, [pathname, setIsLeftPanel, setIsRightPanel, setSelectedPost]);
 
   return (
     <header className="flex px-8 items-center font-bold mt-[18px]">
@@ -81,7 +86,22 @@ function NavBar({
       </nav>
       <div className="flex flex-1 text-end inline-block justify-end">
         <a href="/api/auth/logout">
-          <Icons />
+          <div className="relative w-8 h-8">
+            {/* Conditionally render the placeholder only if profilePicture is not available */}
+            {!user && (
+              <img
+                src={placeholderImage}
+                alt="Placeholder Profile"
+                className="w-full h-full rounded-full object-cover"
+              />
+            )}
+            {user && (
+              <Icons
+                user_id={user.email || user.sub}
+                className="w-full h-full rounded-full object-cover"
+              />
+            )}
+          </div>
         </a>
       </div>
     </header>
