@@ -48,30 +48,37 @@ function Reply({
     }
   };
 
+  const renderNameProfile = () => {
+    if (isNewReply) return <></>;
+    return (
+      <>
+        <span className="text-[12px] font-semibold cursor-pointer">
+          @{user_id.split("@")[0]}
+        </span>
+        <Image
+          src={"/images/TEST_kbt.png"}
+          height={32}
+          width={32}
+          alt="pfp"
+          className="rounded-full cursor-pointer"
+        />
+      </>
+    );
+  };
+
   return (
     <div className="space-y-3 mb-2">
       <div className="flex">
         <div className="flex flex-1 justify-end items-center space-x-3">
           <div className="flex items-center space-x-3">
-            <span className="text-[12px] font-semibold cursor-pointer">
-              {isNewReply && user
-                ? `@${user.nickname}`
-                : `@${user_id.split("@")[0]}`}
-            </span>
-            <Image
-              src={"/images/TEST_kbt.png"}
-              height={32}
-              width={32}
-              alt="pfp"
-              className="rounded-full cursor-pointer"
-            />
+            {renderNameProfile()}
           </div>
         </div>
       </div>
       {isNewReply ? (
         <div className="flex flex-col space-y-2">
           <textarea
-            className="w-full px-2 py-2 bg-muted/15 rounded overflow-y-auto break-words text-[12px] font-medium text-white/80 bg-panels max-h-[200px]"
+            className="w-full px-2 py-2 bg-muted/15 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] font-medium text-white/80 bg-panels max-h-[200px]"
             name="new-reply"
             placeholder="Add a reply..."
             value={reply}
