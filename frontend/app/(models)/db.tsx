@@ -200,7 +200,7 @@ export async function LastDreams(user_id: string) {
     .find(
       { user_id: user_id },
       {
-        projection: { duration: 1, date: 1 },
+        projection: { duration: 1, date: 1, analytics: 1 },
       }
     )
     .toArray();
@@ -210,10 +210,16 @@ export async function LastDreams(user_id: string) {
   );
 
   let x = Math.min(sortedPosts.length, 7);
-  const result = sortedPosts.slice(0, x).map((post) => ({
-    duration: post.duration,
-    date: post.date,
-  }));
+  const result = sortedPosts.slice(0, x).map((post) => {
+    const analytics = JSON.parse(post.analytics || "{}");
+    const concern = analytics.concern || 0;
+
+    return {
+      duration: post.duration,
+      date: post.date,
+      concern: concern,
+    };
+  });
 
   return result.reverse();
 }
