@@ -47,3 +47,8 @@ def analyze_concern(data: Text):
     payload = ai_utils.analyze_concern(data.text)
     print(payload)
     return payload
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Use PORT environment variable or default to 8000
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=port)  # Bind to 0.0.0.0 and use the dynamic port
