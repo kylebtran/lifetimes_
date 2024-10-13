@@ -37,7 +37,9 @@ function SidePanels({
 
   const [isReadyToUpload, setIsReadyToUpload] = useState(false);
 
-  const post = selectedPost ? allPosts[(selectedPost - 1) % allPosts.length] : null;
+  const post = selectedPost
+    ? allPosts[(selectedPost - 1) % allPosts.length]
+    : null;
 
   const handleSubmit = async () => {
     if (!textContent) return;
@@ -178,7 +180,7 @@ function SidePanels({
                     date={post.date}
                   />
                   {/* <Break /> */}
-                  {/* {user && user.name ? (
+                  {user && user.name ? (
                     <Reply
                       user_id={user.name}
                       post_id={post.user_id}
@@ -187,7 +189,7 @@ function SidePanels({
                     />
                   ) : (
                     <></>
-                  )} */}
+                  )}
                   <div />
                   {renderReplies()}
                 </>

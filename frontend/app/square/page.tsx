@@ -41,27 +41,24 @@ function Square() {
   }, [user]); // Dependency on user to fetch new posts when user changes
 
   return (
-    <div className="flex w-full min-h-screen relative justify-center overflow-hidden rolling-container">
+    <div className="flex w-full min-h-screen relative justify-center overflow-hidden rolling-text-container">
       <div className="relative w-[984px] h-[875px] top-[58px] rolling-text">
         <Image
           src="/assets/emotionmap2.svg"
           alt="emotionmap"
-          className="select-none"
+          className="select-none scale-[0.8]"
           draggable={false}
           width={984}
           height={875}
         />
         <div
-          className={`absolute inset-0 cursor-default z-10 w-full h-full scale-x-[1.41] scale-y-[1.48] -mt-[93px] ml-[86px] overflow-hidden ${
+          className={`absolute inset-0 cursor-default z-10 w-full h-full scale-x-[1.128] scale-y-[1.186] -mt-[74px] ml-[70px] overflow-hidden ${
             posts.length > 0 ? "opacity-100" : "opacity-0"
           } transition-opacity duration-1000 ease-in-out mix-blend-overlay`}
         >
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
-          <Mapers 
-            posts={posts}
-            setSelectedPost={setSelectedPost} 
-          />
+          <Mapers posts={posts} setSelectedPost={setSelectedPost} />
         </div>
       </div>
     </div>

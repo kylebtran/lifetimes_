@@ -2,26 +2,27 @@ import { useEffect, useState } from "react";
 import { Post } from "../(models)/db";
 import { usePanelContext } from "../PanelContext";
 
-function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
+function Mapers({
+  posts,
+  setSelectedPost,
+}: {
+  posts: Post[];
+  setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const [plotlyLoaded, setPlotlyLoaded] = useState(false);
 
-  const {
-    allPosts
-  } = usePanelContext();
+  const { allPosts } = usePanelContext();
 
   const handleClick = (x: number) => {
     setSelectedPost(x);
-  }
+  };
   const coords = [];
   // const postMap = new Map<Post, number>();
-  
-  allPosts.forEach(
-    (value: Post, index: number, array: Post[]) => {
-      if(posts.some((post) => post.coordinate === value.coordinate)) {
-        
-      }
+
+  allPosts.forEach((value: Post, index: number, array: Post[]) => {
+    if (posts.some((post) => post.coordinate === value.coordinate)) {
     }
-  )
+  });
 
   useEffect(() => {
     const checkPlotly = () => {
@@ -42,7 +43,7 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
 
       const trace1 = {
         x,
-        y,  
+        y,
         pointIndices,
         mode: "markers", // Include markers for points
         name: "points",
