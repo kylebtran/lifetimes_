@@ -4,6 +4,7 @@ import { Ellipsis, UserPlus } from "lucide-react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Icons from "./Icons";
 import Username from "./Username";
+import { Post } from "../(models)/db";
 
 function Reply({
   user_id,
@@ -11,6 +12,7 @@ function Reply({
   date,
   post_id,
   post_date,
+  setAllPosts,
   isNewReply = false,
 }: {
   user_id: string;
@@ -18,6 +20,7 @@ function Reply({
   date?: string;
   post_id?: string;
   post_date?: string;
+  setAllPosts?: React.Dispatch<React.SetStateAction<Post[]>>;
   isNewReply?: boolean;
 }) {
   const [reply, setReply] = useState<string>("");
@@ -28,7 +31,7 @@ function Reply({
   };
 
   const handleSubmit = async () => {
-    if (!reply || !user) return;
+    if (!reply || !user || !setAllPosts) return;
     try {
       const response = await fetch("/api/db/addReply", {
         method: "POST",
@@ -44,6 +47,20 @@ function Reply({
       });
 
       // console.log("Reply Successful");
+      const fetchPosts = async () => {
+        try {
+          const response = await fetch("/api/db/post"); // Adjust the API endpoint
+          if (!response.ok) {
+            throw new Error("Failed to fetch posts");
+          }
+          const data = await response.json();
+          setAllPosts(data); // Set fetched posts
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      };
+  
+      fetchPosts();
       setReply("");
     } catch (error) {
       console.error("Error:", error);

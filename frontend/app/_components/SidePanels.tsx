@@ -16,11 +16,13 @@ function SidePanels({
   isRightPanel,
   selectedPost,
   allPosts,
+  setAllPosts,
 }: {
   isLeftPanel: boolean;
   isRightPanel: boolean;
   selectedPost: number;
   allPosts: PostInterface[];
+  setAllPosts: React.Dispatch<React.SetStateAction<PostInterface[]>>;
 }) {
   const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
   const [duraContent, setDuraContent] = useState<number>(0);
@@ -90,7 +92,8 @@ function SidePanels({
 
   const handleUpload = async () => {
     try {
-      const concernToAdd = Number(duraContent) < 8 ? 8 - Number(duraContent) : 0;
+      const concernToAdd =
+        Number(duraContent) < 8 ? 8 - Number(duraContent) : 0;
       const post: PostInterface = {
         user_id: user?.email || "",
         date: new Date().toISOString().split("T")[0],
@@ -103,10 +106,7 @@ function SidePanels({
           anger: anger,
           surprise: surprise,
           disgust: disgust,
-          concern: Math.min(
-            concern + concernToAdd,
-            10
-          ),
+          concern: Math.min(concern + concernToAdd, 10),
         }),
         title: "",
         isPrivate: false,
@@ -191,6 +191,7 @@ function SidePanels({
                         user_id={user.name}
                         post_id={post.user_id}
                         post_date={post.date}
+                        setAllPosts={setAllPosts}
                         isNewReply={true}
                       />
                     </div>
