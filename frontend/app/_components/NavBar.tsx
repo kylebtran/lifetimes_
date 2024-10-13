@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { usePathname } from "next/navigation";
-
+import Icons from "./Icons";
 const links = [
   { href: "/", label: "ROOT" },
   { href: "/square", label: "SQUARE" },
@@ -81,14 +81,7 @@ function NavBar({
       </nav>
       <div className="flex flex-1 text-end inline-block justify-end">
         <a href="/api/auth/logout">
-          <Image
-            src={"/images/TEST_kbt.png"}
-            height={32}
-            width={32}
-            alt="pfp"
-            className="rounded-full"
-            priority
-          />
+          <Icons />
         </a>
       </div>
     </header>

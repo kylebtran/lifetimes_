@@ -68,7 +68,6 @@ export async function PostsId(user_id_in: string) {
 
 // Returns a given dream given user_id and date
 export async function ExactPost(user_id: string, date: Date) {
-  console.log(user_id + " " + date);
   const client = await clientPromise;
   const db = client.db("Dreams");
   const post = await db.collection("Post").findOne({
@@ -163,8 +162,6 @@ export async function AddReply(
       },
     }
   );
-  // console.log(posts);
-  // return posts;
 }
 
 // get comments for a dream
@@ -233,6 +230,7 @@ export async function getInfo(user_id: string) {
     .collection("User")
     .findOne({ user_id }, { projection: { profilePicture: 1, username: 1 } });
 
+  console.log(user);
   if (!user) {
     throw new Error("User not found");
   }
