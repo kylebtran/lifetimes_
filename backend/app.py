@@ -41,3 +41,9 @@ def analyze_text(data: Text):
     payload["coordinates"] = dict(zip(["x", "y"], avg_vector))
     print(payload)
     return payload
+
+@app.post("/analyze_concern")
+def analyze_concern(data: Text):
+    payload = ai_utils.analyze_concern(data.text)
+    print(payload)
+    return payload

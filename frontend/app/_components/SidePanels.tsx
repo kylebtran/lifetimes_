@@ -30,6 +30,7 @@ function SidePanels({
   const [anger, setAnger] = useState<number>(0);
   const [surprise, setSurprise] = useState<number>(0);
   const [disgust, setDisgust] = useState<number>(0);
+  const [concern, setConcern] = useState<number>(0);
   const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
   const [username, setUsername] = useState<string>("");
   const { user, isLoading } = useUser(); // Get user from Auth0
@@ -66,7 +67,9 @@ function SidePanels({
       });
 
       const data = await response.json();
-      const { happiness, sadness, fear, anger, surprise, disgust } =
+      console.log(data);
+
+      const { happiness, sadness, fear, anger, surprise, disgust, concern } =
         data.analytics;
       const coordinates = data.coordinates;
 
@@ -76,6 +79,7 @@ function SidePanels({
       setAnger(anger);
       setSurprise(surprise);
       setDisgust(disgust);
+      setConcern(concern);
       setCoordinates(coordinates);
 
       setIsReadyToUpload(true); // Set ready to upload flag
@@ -92,12 +96,12 @@ function SidePanels({
         content: textContent,
         coordinate: [coordinates.x, coordinates.y],
         analytics: JSON.stringify({
-          happiness,
-          sadness,
-          fear,
-          anger,
-          surprise,
-          disgust,
+          happiness: happiness,
+          sadness: sadness,
+          fear: fear,
+          anger: anger,
+          surprise: surprise,
+          disgust: disgust,
           concern: 0,
         }),
         title: "",
