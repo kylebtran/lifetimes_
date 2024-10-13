@@ -2,6 +2,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import Icons from "./Icons";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import ProfileDropdown from "./ProfileDropdown";
 
 const placeholderImage = "/images/Portrait_Placeholder.png";
 
@@ -25,7 +26,6 @@ function NavBar({
   setSelectedPost: Function;
 }) {
   const pathname = usePathname();
-  const { user, isLoading } = useUser();
 
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -85,23 +85,9 @@ function NavBar({
         )}
       </nav>
       <div className="flex flex-1 text-end inline-block justify-end">
-        <a href="/api/auth/logout">
-          <div className="relative w-8 h-8">
-            {/* Conditionally render the placeholder only if profilePicture is not available */}
-            {!user && (
-              <img
-                src={placeholderImage}
-                alt="Placeholder Profile"
-                className="w-full h-full rounded-full object-cover"
-              />
-            )}
-            {user && (
-              <Icons
-                user_id={user.email || user.sub}
-                className="w-full h-full rounded-full object-cover"
-              />
-            )}
-          </div>
+        <a>
+          <ProfileDropdown placeholderImage={placeholderImage} />
+          <div className="relative w-8 h-8"></div>
         </a>
       </div>
     </header>

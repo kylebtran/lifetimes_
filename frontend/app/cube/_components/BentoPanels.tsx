@@ -12,7 +12,7 @@ function BentoPanels() {
     avg: number;
     summary: string;
     bulletPoints: string[];
-  }>();
+  } | null>(null); // Initially set concern to null
   const { user, isLoading } = useUser();
 
   useEffect(() => {
@@ -84,7 +84,9 @@ function BentoPanels() {
   }, [isLoading]);
 
   const renderConcerns = () => {
-    if (!concern) return <></>;
+    if (!concern) {
+      return <p>Analysis Loading...</p>; // Display placeholder text while loading
+    }
 
     return (
       <>
