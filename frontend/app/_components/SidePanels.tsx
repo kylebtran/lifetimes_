@@ -25,7 +25,7 @@ function SidePanels({
   allPosts: PostInterface[];
 }) {
   const [textContent, setTextContent] = useState<string>(SAMPLE_TEXT);
-  const [duraContent, setDuraContent] = useState<number>(8);
+  const [duraContent, setDuraContent] = useState<number>(0);
 
   const [happiness, setHappiness] = useState<number>(0);
   const [sadness, setSadness] = useState<number>(0);
@@ -97,12 +97,16 @@ function SidePanels({
           anger: anger,
           surprise: surprise,
           disgust: disgust,
-          concern: Math.min(concern + (Number(duraContent * 60) < 8 ? 8 - Number(duraContent * 60) : 0), 10),
+          concern: Math.min(
+            concern +
+              (Number(duraContent * 60) < 8 ? 8 - Number(duraContent * 60) : 0),
+            10
+          ),
         }),
         title: "",
         isPrivate: false,
         tags: [],
-        duration:  Number(duraContent * 60),
+        duration: Number(duraContent * 60),
         replies: JSON.stringify([]),
       };
 
@@ -234,8 +238,8 @@ function SidePanels({
                   onChange={(e) => setTextContent(e.target.value)}
                   placeholder="Recite last night's dream"
                 />
-                <textarea
-                  className="w-full min-h-10 px-2 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white bg-panels max-h-[10px]"
+                <input
+                  className="w-full min-h-8 px-2 py-2 outline outline-[0.2px] outline-muted/50 outline-offset-[-0.2px] rounded-sm overflow-y-auto break-words text-[12px] text-white bg-panels max-h-[10px]"
                   value={duraContent}
                   onChange={(e) => setDuraContent(e.target.value)}
                   placeholder="How many hours did you sleep?"
