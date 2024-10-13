@@ -235,8 +235,6 @@ export async function getInfo(user_id: string) {
   const user = await db
     .collection("User")
     .findOne({ user_id }, { projection: { profilePicture: 1, username: 1 } });
-
-  console.log(user);
   if (!user) {
     throw new Error("User not found");
   }
@@ -250,22 +248,46 @@ export async function getInfo(user_id: string) {
 export async function Frens(user_id: string) {
   const client = await clientPromise;
   const db = client.db("Dreams");
-  const user = await db.collection("User").findOne({ user_id });
 
-  if (user && user.friends && user.friends.length > 0) {
-    // Find users whose `friends` array contains the given user_id
-    const mutualFriends = await db
-      .collection("User")
-      .find({
-        user_id: { $in: user.friends },
-        friends: user_id,
-      })
-      .toArray();
+  const user = await db
+    .collection("User")
+    .findOne({ user_id: user_id }, { projection: { friends: 1 } });
 
-    return mutualFriends;
-  } else {
+  if (!user || !user.friends) {
+    console.log("User or friends not found");
     return [];
   }
+
+  let friendsArray: string[] = [];
+
+  try {
+    friendsArray = JSON.parse(user.friends.replace(/\\/g, ""));
+
+    // Ensure that friendsArray is an actual array
+    if (!Array.isArray(friendsArray)) {
+      throw new Error("Parsed friends field is not an array");
+    }
+  } catch (error) {
+    console.error("Failed to parse friends string into array:", error);
+    return [];
+  }
+  if (friendsArray.length === 0) {
+    return [];
+  }
+  const mutualFriends = await db
+    .collection("User")
+    .find({
+      user_id: { $in: friendsArray },
+      friends: { $regex: user_id },
+    })
+    .toArray();
+
+  const result = mutualFriends.map((friend) => ({
+    user_id: friend.user_id,
+  }));
+
+  console.log(result);
+  return result;
 }
 
 // returns all users with friend requests to our current user_id
