@@ -2,27 +2,46 @@ import { useEffect, useState } from "react";
 import { Post } from "../(models)/db";
 import { usePanelContext } from "../PanelContext";
 
-function Mapers({
-  posts,
-  setSelectedPost,
-}: {
-  posts: Post[];
-  setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
-}) {
+// Helper function to compare two coordinate arrays
+const compareCoordinates = (a: number[], b: number[]) => {
+  if (a.length !== b.length) return false;
+  return a.every((val, index) => val === b[index]);
+};
+
+function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
   const [plotlyLoaded, setPlotlyLoaded] = useState(false);
 
   const { allPosts } = usePanelContext();
 
-  const handleClick = (x: number) => {
-    setSelectedPost(x);
-  };
-  const coords = [];
-  // const postMap = new Map<Post, number>();
+  const postMap = new Map<string, number>();
 
-  allPosts.forEach((value: Post, index: number, array: Post[]) => {
-    if (posts.some((post) => post.coordinate === value.coordinate)) {
+  // Fill postMap with posts that exist in both allPosts and posts
+  allPosts.forEach((value: Post, index: number) => {
+    const postExists = posts.some((post) => compareCoordinates(post.coordinate, value.coordinate) && post.user_id == value.user_id); // Use deep comparison
+    if (postExists) {
+      console.log(value);
+      postMap.set(value.coordinate[0] + " " + value.coordinate[1], index+1);
     }
   });
+  
+  const handleClick = (post: Post) => {
+    if(!post) return;
+
+    const val = postMap.get(post.coordinate[0] + " " + post.coordinate[1]);
+    if (val !== undefined) {
+      setSelectedPost(val);
+    }
+  };
+  
+  const coords = posts.map((value: Post) => value.coordinate);
+
+  // Set the initial selected post
+  useEffect(() => {
+    if (posts.length > 0) {
+      // Select the first post initially
+      handleClick(posts[0]);
+    }
+  }, [posts]); // Run whenever posts change
 
   useEffect(() => {
     const checkPlotly = () => {
@@ -34,17 +53,19 @@ function Mapers({
     };
     checkPlotly();
   }, []);
-
+  
   useEffect(() => {
     if (plotlyLoaded) {
       const x = coords.map((a: number[]) => a[0]);
       const y = coords.map((a: number[]) => a[1]);
-      const pointIndices = posts.map((_, i) => i);
+
+      // Attach Post objects to each data point using `customdata`
+      const customdata = posts.map((post) => post); 
 
       const trace1 = {
         x,
         y,
-        pointIndices,
+        customdata, // Attach custom Post data to each marker
         mode: "markers", // Include markers for points
         name: "points",
         marker: {
@@ -139,12 +160,10 @@ function Mapers({
       // Add event listener for marker clicks
       document.getElementById("myDiv2").on("plotly_click", (data) => {
         const clickedPoint = data.points[0]; // Get the first clicked point
-        const clicked = clickedPoint.pointIndices;
+        const clickedPost = clickedPoint.customdata; // Access the custom Post data from the clicked point
 
         // Set the clicked point coordinates in the state
-        handleClick(clicked);
-
-        // Optionally, you can log the clicked point
+        handleClick(clickedPost);
       });
     }
   }, [plotlyLoaded, coords]);
