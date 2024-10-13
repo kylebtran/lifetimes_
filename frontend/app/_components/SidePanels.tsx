@@ -180,18 +180,21 @@ function SidePanels({
                     date={post.date}
                   />
                   {/* <Break /> */}
+
+                  <div />
+                  {renderReplies()}
                   {user && user.name ? (
-                    <Reply
-                      user_id={user.name}
-                      post_id={post.user_id}
-                      post_date={post.date}
-                      isNewReply={true}
-                    />
+                    <div className="absolute w-[208px] bottom-6">
+                      <Reply
+                        user_id={user.name}
+                        post_id={post.user_id}
+                        post_date={post.date}
+                        isNewReply={true}
+                      />
+                    </div>
                   ) : (
                     <></>
                   )}
-                  <div />
-                  {renderReplies()}
                 </>
               ) : (
                 <></>
