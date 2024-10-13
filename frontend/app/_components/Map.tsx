@@ -25,8 +25,8 @@ function Map({ coords }: { coords: number[][] }) {
         mode: "markers", // Include markers for points
         name: "points",
         marker: {
-          color: "rgb(0, 0, 0)",
-          size: 20,
+          color: "rgb(26,23,23)",
+          size: 8,
           opacity: 0.4,
         },
         type: "scatter",
@@ -40,7 +40,7 @@ function Map({ coords }: { coords: number[][] }) {
         name: "points",
         line: {
           color: "rgb(255, 255, 255)",
-          width: 1,
+          width: 0.5,
         },
         opacity: 0.3,
         type: "scatter",
