@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Post } from "../(models)/db";
 import { usePanelContext } from "../PanelContext";
+import Icons from "./Icons";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 // Helper function to compare two coordinate arrays
 const compareCoordinates = (a: number[], b: number[]) => {
@@ -8,30 +10,40 @@ const compareCoordinates = (a: number[], b: number[]) => {
   return a.every((val, index) => val === b[index]);
 };
 
-function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
+function Mapers({
+  posts,
+  setSelectedPost,
+}: {
+  posts: Post[];
+  setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const [plotlyLoaded, setPlotlyLoaded] = useState(false);
-
+  const { user, isLoading } = useUser(); // Get user from Auth0
   const { allPosts } = usePanelContext();
 
   const postMap = new Map<string, number>();
 
   // Fill postMap with posts that exist in both allPosts and posts
   allPosts.forEach((value: Post, index: number) => {
-    const postExists = posts.some((post) => compareCoordinates(post.coordinate, value.coordinate) && post.user_id == value.user_id); // Use deep comparison
+    const postExists = posts.some(
+      (post) =>
+        compareCoordinates(post.coordinate, value.coordinate) &&
+        post.user_id == value.user_id
+    ); // Use deep comparison
     if (postExists) {
-      postMap.set(value.coordinate[0] + " " + value.coordinate[1], index+1);
+      postMap.set(value.coordinate[0] + " " + value.coordinate[1], index + 1);
     }
   });
-  
+
   const handleClick = (post: Post) => {
-    if(!post) return;
+    if (!post) return;
 
     const val = postMap.get(post.coordinate[0] + " " + post.coordinate[1]);
     if (val !== undefined) {
       setSelectedPost(val);
     }
   };
-  
+
   const coords = posts.map((value: Post) => value.coordinate);
 
   // Set the initial selected post
@@ -52,14 +64,14 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
     };
     checkPlotly();
   }, []);
-  
+
   useEffect(() => {
     if (plotlyLoaded) {
       const x = coords.map((a: number[]) => a[0]);
       const y = coords.map((a: number[]) => a[1]);
 
       // Attach Post objects to each data point using `customdata`
-      const customdata = posts.map((post) => post); 
+      const customdata = posts.map((post) => post);
 
       const trace1 = {
         x,
@@ -74,6 +86,19 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
         },
         type: "scatter",
         hoverinfo: "x+y", // Show text hover info
+      };
+
+      const trace4 = {
+        x: [x[0]],
+        y: [y[0]],
+        mode: "markers", // Include markers for points
+        name: "most recent",
+        marker: {
+          color: "rgb(155,155,155)",
+          size: 25,
+          opacity: 1,
+        },
+        type: "scatter",
       };
 
       const trace3 = {
@@ -113,8 +138,12 @@ function Mapers({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: Re
         },
       };
 
-      const config = { displayModeBar: false, responsive: true, doubleClick: false};
-      const data = [trace2, trace3, trace1];
+      const config = {
+        displayModeBar: false,
+        responsive: true,
+        doubleClick: false,
+      };
+      const data = [trace4, trace2, trace3, trace1];
 
       const layout = {
         showlegend: false,
