@@ -76,6 +76,7 @@ function SidePanels({
               <Break />
               <Post text={SAMPLE_TEXT} />
               {/* <Break /> */}
+              <Reply isNewReply={true}/>
               <Reply />
             </div>
           </div>
