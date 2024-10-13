@@ -62,6 +62,26 @@ export default function Component() {
     },
   } satisfies ChartConfig;
 
+  function CustomTick({ x, y, payload }: any) {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        dy={16}
+        textAnchor="middle"
+        fill={isHovered ? "#ff6347" : "#000"} // Change color on hover
+        fontSize={12}
+        onMouseEnter={() => setIsHovered(true)} // Set hover state to true
+        onMouseLeave={() => setIsHovered(false)} // Set hover state to false
+        style={{ cursor: "pointer" }} // Optional: add pointer cursor
+      >
+        {payload.value}
+      </text>
+    );
+  }
+
   return (
     <ChartContainer config={chartConfig} className="p-5 h-[400px] w-full">
       <BarChart accessibilityLayer data={chartData}>
@@ -71,8 +91,17 @@ export default function Component() {
           tickLine={false}
           tickMargin={10}
           axisLine={false}
+          tick={{
+            fill: "#d5e0f0",
+            fontSize: 12, // Adjust font size
+            fontWeight: "bold", // Make the text bold
+            fontFamily: "Arial", // Set a custom font family
+          }}
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
+
+        <ChartTooltip
+          content={<ChartTooltipContent className="custom-tooltip" />}
+        />
         <Bar dataKey="duration" fill="#baa0a0" radius={4} />
       </BarChart>
     </ChartContainer>
