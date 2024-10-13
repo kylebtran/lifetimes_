@@ -186,6 +186,34 @@ export async function Analytics(user_id: string, date: Date) {
   return result;
 }
 
+// last week of dreams durations and dates
+export async function LastDreams(user_id: string) {
+  const client = await clientPromise;
+  const db = client.db("Dreams");
+
+  const posts = await db
+    .collection("Post")
+    .find(
+      { user_id: user_id },
+      {
+        projection: { duration: 1, date: 1 },
+      }
+    )
+    .toArray();
+
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+
+  let x = Math.min(sortedPosts.length, 7);
+  const result = sortedPosts.slice(0, x).map((post) => ({
+    duration: post.duration,
+    date: post.date,
+  }));
+
+  return result.reverse();
+}
+
 /*
  *   All functions below here are friend functions
  */
