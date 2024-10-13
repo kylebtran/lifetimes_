@@ -16,7 +16,7 @@ function Card({
   selectedPost: number;
   setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [imageIndex, setImageIndex] = useState<number>(1);
+  // const [imageIndex, setImageIndex] = useState<number>(1);
   const [randomPosition, setRandomPosition] = useState<string>("");
   const [flipX, setFlipX] = useState<string>("");
   const [flipY, setFlipY] = useState<string>("");
@@ -29,12 +29,12 @@ function Card({
   const dragThreshold = 5;
 
   useEffect(() => {
-    const index = Math.floor(Math.random() * 8) + 1;
+    // const index = Math.floor(Math.random() * 8) + 1;
     const position = `${Math.random() * 100}% ${Math.random() * 100}%`;
     const flipXValue = Math.random() > 0.5 ? "scale-x-[-1]" : "";
     const flipYValue = Math.random() > 0.5 ? "scale-y-[-1]" : "";
 
-    setImageIndex(index);
+    // setImageIndex(index);
     setRandomPosition(position);
     setFlipX(flipXValue);
     setFlipY(flipYValue);
@@ -80,9 +80,6 @@ function Card({
       } transform translate-x-[${(imageKey % 51) * 100}px}]`}
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 200 }}
-      // onClick={() => {
-      //   setIsLeftPanel(!isLeftPanel);
-      // }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -91,11 +88,11 @@ function Card({
         src={`${
           imageKey == 1300
             ? "/assets/cards/card-post.svg"
-            : `/images/TEST_dreamscapes/TEST_dreamscape_${imageIndex}.png`
+            : `/images/TEST_dreamscapes/TEST_dreamscape_${
+                ((imageKey + 3) % 20) + 1
+              }.png`
         }`}
         fill={true}
-        objectFit={"cover"}
-        objectPosition={randomPosition}
         alt={"[PLACEHOLDER]"}
         className={`rounded-lg ${
           imageKey != 1300
@@ -105,6 +102,11 @@ function Card({
         priority={true}
         loading={"eager"}
         draggable={false}
+        style={{
+          objectFit: "cover",
+          objectPosition: randomPosition,
+        }}
+        sizes="[240px, 128px]"
       />
     </motion.div>
   );

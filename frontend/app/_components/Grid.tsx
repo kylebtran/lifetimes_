@@ -25,6 +25,7 @@ function Grid({
       <motion.div
         className={`${translateX}`}
         style={{ transform: `translateX(${translateX - 2500}px)` }}
+        key={index}
       >
         <Card
           key={index}
