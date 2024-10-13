@@ -19,6 +19,7 @@ import {
 type Dream = {
   duration: number;
   date: string;
+  concern: number;
 };
 
 export default function Component() {
@@ -39,6 +40,7 @@ export default function Component() {
           const formattedData = data.map((item: Dream) => ({
             date: item.date,
             duration: Math.round((item.duration / 60.0) * 10) / 10.0,
+            concern: item.concern ?? 0,
           }));
 
           setChartData(formattedData);
@@ -52,10 +54,6 @@ export default function Component() {
 
     fetchData();
   }, [user?.email]);
-
-  // if (loading || isLoading) {
-  //   return <div className="">Loading...</div>;
-  // }
 
   if (error) {
     return <div>Error loading data</div>;
