@@ -44,7 +44,11 @@ export async function Posts() {
   const client = await clientPromise;
   const db = client.db("Dreams");
   const posts = await db.collection("Post").find({}).toArray();
-  return posts;
+
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  return sortedPosts;
 }
 
 // Returns all posts given a user_id
