@@ -80,9 +80,6 @@ function Card({
       } transform translate-x-[${(imageKey % 51) * 100}px}]`}
       whileHover={{ scale: 1.1 }}
       transition={{ type: "spring", stiffness: 200 }}
-      // onClick={() => {
-      //   setIsLeftPanel(!isLeftPanel);
-      // }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -96,8 +93,6 @@ function Card({
               }.png`
         }`}
         fill={true}
-        objectFit={"cover"}
-        objectPosition={randomPosition}
         alt={"[PLACEHOLDER]"}
         className={`rounded-lg ${
           imageKey != 1300
@@ -107,6 +102,11 @@ function Card({
         priority={true}
         loading={"eager"}
         draggable={false}
+        style={{
+          objectFit: "cover",
+          objectPosition: randomPosition,
+        }}
+        sizes="[240px, 128px]"
       />
     </motion.div>
   );

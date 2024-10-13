@@ -50,7 +50,7 @@ export default function Home() {
         {/* 2601 / 255 */}
         <Image
           src="/assets/overlay.svg"
-          layout="fill"
+          fill={true}
           alt="overlay"
           draggable={false}
           className="pointer-events-none"
