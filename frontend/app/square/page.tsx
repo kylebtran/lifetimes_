@@ -43,8 +43,8 @@ function Square() {
   const coords = posts.map((value: Post) => value.coordinate);
   console.log(coords);
   return (
-    <div className="flex w-full min-h-screen relative justify-center overflow-hidden">
-      <div className="relative w-[984px] h-[875px] top-[58px]">
+    <div className="flex w-full min-h-screen relative justify-center overflow-hidden rolling-container">
+      <div className="relative w-[984px] h-[875px] top-[58px] rolling-text">
         <Image
           src="/assets/emotionmap2.svg"
           alt="emotionmap"
@@ -53,7 +53,11 @@ function Square() {
           width={984}
           height={875}
         />
-        <div className="absolute inset-0 cursor-default z-10 w-full h-full scale-x-[1.41] scale-y-[1.48] -mt-[93px] ml-[86px] overflow-hidden">
+        <div
+          className={`absolute inset-0 cursor-default z-10 w-full h-full scale-x-[1.41] scale-y-[1.48] -mt-[93px] ml-[86px] overflow-hidden ${
+            posts.length > 0 ? "opacity-100" : "opacity-0"
+          } transition-opacity duration-1000 ease-in-out mix-blend-overlay`}
+        >
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
           <Map coords={coords} />
