@@ -40,8 +40,6 @@ function Square() {
     getUserPost(); // Call the function
   }, [user]); // Dependency on user to fetch new posts when user changes
 
-  const coords = posts.map((value: Post) => value.coordinate);
-  console.log(coords);
   return (
     <div className="flex w-full min-h-screen relative justify-center overflow-hidden rolling-container">
       <div className="relative w-[984px] h-[875px] top-[58px] rolling-text">
@@ -60,7 +58,10 @@ function Square() {
         >
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
-          <Map coords={coords} />
+          <Map 
+            posts={posts}
+            setSelectedPost={setSelectedPost} 
+          />
         </div>
       </div>
     </div>

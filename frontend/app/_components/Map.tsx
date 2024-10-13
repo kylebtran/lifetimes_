@@ -1,7 +1,27 @@
 import { useEffect, useState } from "react";
+import { Post } from "../(models)/db";
+import { usePanelContext } from "../PanelContext";
 
-function Map({ coords }: { coords: number[][] }) {
+function Map({ posts, setSelectedPost }: { posts: Post[], setSelectedPost: React.Dispatch<React.SetStateAction<number>>; }) {
   const [plotlyLoaded, setPlotlyLoaded] = useState(false);
+
+  const {
+    allPosts
+  } = usePanelContext();
+
+  const handleClick = (x: number) => {
+    setSelectedPost(x);
+  }
+  const coords = [];
+  // const postMap = new Map<Post, number>();
+  
+  allPosts.forEach(
+    (value: Post, index: number, array: Post[]) => {
+      if(posts.some((post) => post.coordinate === value.coordinate)) {
+        
+      }
+    }
+  )
 
   useEffect(() => {
     const checkPlotly = () => {
@@ -18,10 +38,12 @@ function Map({ coords }: { coords: number[][] }) {
     if (plotlyLoaded) {
       const x = coords.map((a: number[]) => a[0]);
       const y = coords.map((a: number[]) => a[1]);
+      const pointIndices = posts.map((_, i) => i);
 
       const trace1 = {
         x,
-        y,
+        y,  
+        pointIndices,
         mode: "markers", // Include markers for points
         name: "points",
         marker: {
@@ -83,14 +105,14 @@ function Map({ coords }: { coords: number[][] }) {
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         xaxis: {
-          visible: false,
+          visible: true,
           domain: [0, 0.85],
           showgrid: false,
           zeroline: false,
           range: [-1, 1],
         },
         yaxis: {
-          visible: false,
+          visible: true,
           domain: [0, 0.85],
           showgrid: false,
           zeroline: false,
@@ -112,13 +134,23 @@ function Map({ coords }: { coords: number[][] }) {
       };
 
       window.Plotly.newPlot("myDiv2", data, layout, config);
+
+      // Add event listener for marker clicks
+      document.getElementById("myDiv2").on("plotly_click", (data) => {
+        const clickedPoint = data.points[0]; // Get the first clicked point
+        const clicked = clickedPoint.pointIndices;
+
+        // Set the clicked point coordinates in the state
+        handleClick(clicked);
+
+        // Optionally, you can log the clicked point
+      });
     }
   }, [plotlyLoaded, coords]);
 
   return (
-    <div id="myDiv2" style={{ width: "100%", height: "100%" }}>
-      {/* <div>X coordinates: {coords.map(a => a[0]).join(', ')}</div>
-      <div>Y coordinates: {coords.map(a => a[1]).join(', ')}</div> */}
+    <div>
+      <div id="myDiv2" style={{ width: "100%", height: "100%" }}></div>
     </div>
   );
 }
