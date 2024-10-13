@@ -53,7 +53,7 @@ function Square() {
           width={984}
           height={480}
         />
-        <div className="absolute cursor-default">
+        <div className="absolute inset-0 cursor-default">
           <Script src="https://cdn.plot.ly/plotly-2.35.2.min.js" />
           <Script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" />
           <Map coords={coords} />
