@@ -5,6 +5,7 @@ import Chart from "./Chart";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { Analytics, Post as PostInterface } from "@/app/(models)/db";
 import Playlist from "./Playlist";
+import FriendsPanel from "./FriendsPanel";
 
 function BentoPanels() {
   const [concern, setConcern] = useState<{
@@ -101,22 +102,23 @@ function BentoPanels() {
   };
 
   return (
-    <div className="w-full h-screen grid grid-rows-5 grid-cols-3 gap-4 p-3">
-      <div className="grid grid-cols-3 grid-rows-2 col-span-1 row-span-5 bg-panels/40 rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md justify-center">
-        <div className="flex flex-col w-full">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="flex justify-center h-[240px]">
-              <Playlist />
-            </div>
-          ))}
+    <div className="w-full h-screen grid grid-rows-5 grid-cols-3 gap-4 p-5">
+      {/* Left Section */}
+      <div className="h-screen flex items-center justify-center col-span-1">
+        <div className="mt-5 min-h-[820px] min-w-[450px] mt-10px bg-panels/50 rounded-xl outline-white/10 outline-offset-[-1px] shadow-md outline">
+          <FriendsPanel />
         </div>
       </div>
+
+      {/* Chart Section */}
       <div className="mt-[64px] col-span-2 row-span-2 bg-panels/40 rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
         <div className="mt-[0px]">
           <Chart />
         </div>
       </div>
-      <div className="col-span-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
+
+      {/* RenderConcerns Section */}
+      <div className="col-span-2 col-start-2 row-span-3 bg-panels rounded-[12px] outline outline-[0.1px] outline-white/10 outline-offset-[-1px] shadow-md">
         {renderConcerns()}
       </div>
     </div>
