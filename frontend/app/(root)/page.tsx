@@ -23,7 +23,7 @@ export default function Home() {
       // ref={scrollRef}
       className="flex flex-col min-h-screen"
     >
-      <div className="flex flex-col p-8 mt-[560px]">
+      <div className="flex flex-col min-h-screen justify-end px-8 pb-4">
         {texts.map((text, index) => (
           <span key={index} className="rolling-text-container text-muted">
             <span className="rolling-text font-sans font-medium italic text-[24px]">
@@ -31,8 +31,8 @@ export default function Home() {
             </span>
           </span>
         ))}
-        <span className="rolling-text-container -mt-20 -ml-2">
-          <span className="rolling-text font-serif text-[256px]">
+        <span className="rolling-text-container mt-[-24px] -ml-2">
+          <span className="rolling-text font-serif text-[256px] leading-none">
             LIFETIMES
             <span className="cursor-blink font-thin text-muted">_</span>
           </span>
@@ -50,10 +50,10 @@ export default function Home() {
         {/* 2601 / 255 */}
         <Image
           src="/assets/overlay.svg"
-          fill={true}
           alt="overlay"
           draggable={false}
-          className="pointer-events-none"
+          fill={true} // Ensures the image fills the parent container
+          className="pointer-events-none object-cover w-full h-full absolute top-0 left-0"
         />
       </div>
     </div>

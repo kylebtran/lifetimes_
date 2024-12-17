@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Card from "./Card";
 import { motion } from "framer-motion";
 
@@ -17,6 +17,7 @@ function Grid({
   selectedPost: number;
   setSelectedPost: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const constraintsRef = useRef(null);
   const cards = Array.from({ length: numCards }, (_, index) => {
     const rowIndex = Math.floor(index / 51);
     const translateX = rowIndex * 100;
@@ -41,20 +42,29 @@ function Grid({
   });
 
   return (
-    <motion.div className="flex items-center justify-center w-full max-h-screen overflow-hidden">
+    <div
+      ref={constraintsRef}
+      style={{
+        width: "2000px", // Arbitrarily large width to accommodate cards
+        height: "2000px", // Arbitrarily large height
+        overflow: "hidden", // Hide overflow so the draggable area is constrained
+        position: "relative", // Ensure container positioning is well-defined
+      }}
+      className="flex items-center max-h-screen justify-center"
+    >
       <motion.div
+        className="grid grid-cols-auto-51 gap-6"
         drag
-        dragElastic={0}
+        dragElastic={1}
         dragTransition={{
           power: 0.3,
           timeConstant: 200,
         }}
-        // dragConstraints={constraintsRef}
-        className="grid grid-cols-auto-51 gap-6"
+        dragConstraints={constraintsRef} // Constrain the draggable element
       >
         {cards}
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
